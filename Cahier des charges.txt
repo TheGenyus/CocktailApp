@@ -1,0 +1,42 @@
+Hello i would like to know if it's possible for you to make me a simple app to make cocktails.
+This app would be used in order to make cocktails and it will list numerous recipy.
+I would like to make this app within android studio and it would be appreciated if you could make me a small tutorial on how should i use it in order to build your app.
+
+So a cocktail contains the following information:
+
+- A name
+- A list of ingredient with dosage
+- An expert rating
+- The rating of the user
+- A description of the flavour
+- The history of the cocktail
+
+The app should contain the following features:
+
+- Search for a specific cocktail by name
+- List all cocktails
+- List all cocktails already done by the user
+- A user can put a recipy in his favorites
+- List all favorites of a user
+- Randomly select a recipy with user preferences (flavour)
+- Randomly select a recipy with user ingredients
+- List some tutorials on how to make cocktails
+- Make it so a user can rate a cocktail
+- List all cocktails that the user can make with his ingredients
+- List all cocktails that the user would like (cocktail flavour search)
+
+The main menu of the app is the login menu then the app should contain a menu with X Buttons:
+
+- List favorites
+- List recipes already done
+- search (find a cocktail with different specification like name, flavour, the ingredients, etc)
+- Random select (With user preference or not or user ingredients or not)
+- List tutorials
+- Disconnect
+
+When a user search for a recipy he can select it to check for the details of it and can then rate it.
+
+I also want a detailed step by step tutorial on exactly what i should do and which files i should create and where i should create them for every functionnality 
+
+
+If you have any questions don't hesitate to ask

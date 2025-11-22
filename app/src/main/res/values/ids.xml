@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btnRegister" type="id" />
+    <item name="btnLogin" type="id" />
+    <item name="progressBar" type="id" />
+    <item name="tilPassword" type="id" />
+    <item name="etPassword" type="id" />
+    <item name="tilEmail" type="id" />
+    <item name="etEmail" type="id" />
+</resources>
