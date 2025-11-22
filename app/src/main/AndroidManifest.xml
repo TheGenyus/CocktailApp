@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".CocktailApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,7 +14,7 @@
         android:theme="@style/Theme.CocktailApp"
         tools:targetApi="31">
         <activity android:name=".ui.activities.LoginActivity"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/Theme.CocktailApp"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,35 +23,35 @@
         </activity>
         <activity android:name=".ui.activities.CocktailListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:theme="@style/Theme.CocktailApp">
         </activity>
         <activity android:name=".ui.activities.MainMenuActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:theme="@style/Theme.CocktailApp">
         </activity>
         <activity android:name=".ui.activities.CocktailDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:theme="@style/Theme.CocktailApp">
         </activity>
         <activity android:name=".ui.activities.FavoritesActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:theme="@style/Theme.CocktailApp">
         </activity>
         <activity android:name=".ui.activities.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:theme="@style/Theme.CocktailApp">
         </activity>
         <activity android:name=".ui.activities.TutorialsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:theme="@style/Theme.CocktailApp">
         </activity>
         <activity android:name=".ui.activities.TutorialDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:theme="@style/Theme.CocktailApp">
         </activity>
         <activity android:name=".ui.activities.RandomActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+            android:theme="@style/Theme.CocktailApp">
         </activity>
     </application>
 

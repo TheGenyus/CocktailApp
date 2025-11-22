@@ -1,13 +1,12 @@
 package com.example.cocktailapp.models
 
+import com.google.firebase.firestore.DocumentId
+
 data class Cocktail(
-    var name: String? = null,
-    var flavourDescription: String? = null,
-    var history: String? = null,
-    var expertRating: Double? = null,
-    var id: Double? = null,
-    val ingredients: List<Ingredient> = listOf()
-) {
-    // No-arg constructor required by Firebase
-    constructor() : this(null, null, null, null, null)
-}
+    @DocumentId val id: String = "",
+    val name: String? = null,
+    val flavourDescription: String? = null,
+    val history: String? = null,
+    val expertRating: Double? = null,
+    val ingredients: List<Ingredient> = emptyList()
+)

@@ -3,8 +3,10 @@ package com.example.cocktailapp.ui.activities
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.GridLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.R
 import com.example.cocktailapp.adapters.CocktailAdapter
 import com.example.cocktailapp.models.Cocktail
-import com.example.cocktailapp.models.Ingredient
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchActivity : AppCompatActivity() {
@@ -55,36 +56,18 @@ class SearchActivity : AppCompatActivity() {
         firestore.collection("cocktails").get()
             .addOnSuccessListener { snapshot ->
                 val allIngredients = mutableSetOf<String>()
-
-                allCocktails = snapshot.map { doc ->
-                    val ingredientList = doc.get("Ingredients") as? List<Map<String, String>>
-                    val ingredients = ingredientList?.map { item ->
-                        Ingredient(
-                            name = item["Name"] ?: "",
-                            quantity = item["Quantity"] ?: ""
-                        )
-                    } ?: listOf()
-
-                    allIngredients.addAll(ingredients.map { it.name })
-
-                    Cocktail(
-                        name = doc.getString("name") ?: "",
-                        flavourDescription = doc.getString("flavourDescription"),
-                        history = doc.getString("history"),
-                        expertRating = doc.getDouble("expertRating"),
-                        id = doc.getDouble("id"),
-                        ingredients = ingredients
-                    )
+                allCocktails = snapshot.mapNotNull { doc ->
+                    val cocktail = doc.toObject(Cocktail::class.java)
+                    if (cocktail.id.isBlank()) return@mapNotNull null
+                    allIngredients.addAll(cocktail.ingredients.map { it.name })
+                    cocktail
                 }
 
-                Log.d("IngredientsFetched", "Ingredients: $allIngredients")
-
-                setupIngredientButtons(allIngredients.toList().sorted())
+                setupIngredientButtons(allIngredients.filter { it.isNotBlank() }.toList().sorted())
                 adapter.updateData(allCocktails)
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Failed to load cocktails", Toast.LENGTH_SHORT).show()
-                Log.e("Firestore", "Error fetching cocktails", it)
+                Toast.makeText(this, getString(R.string.error_loading_cocktails_simple), Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -121,7 +104,7 @@ class SearchActivity : AppCompatActivity() {
         val filtered = allCocktails.filter { cocktail ->
             val matchesName = nameQuery.isEmpty() || cocktail.name?.contains(nameQuery, ignoreCase = true) == true
             val matchesIngredients = selectedIngredients.all { selected ->
-                cocktail.ingredients.any { it.name == selected }
+                cocktail.ingredients.any { it.name.equals(selected, ignoreCase = true) }
             }
             matchesName && matchesIngredients
         }

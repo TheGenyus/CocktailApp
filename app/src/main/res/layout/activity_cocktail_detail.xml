@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bg_primary"
     android:padding="24dp">
 
     <ImageView
@@ -32,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Ingrédients :"
+        android:text="@string/label_ingredients"
         android:textSize="16sp"
         />
 
@@ -61,27 +62,27 @@
         android:id="@+id/saveRatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sauvegarder ma note"
+        android:text="@string/action_save_rating"
         android:layout_marginTop="8dp"/>
 
     <Button
         android:id="@+id/btnFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ajouter aux favoris"
+        android:text="@string/action_add_favorite"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/purple_500"
+        android:backgroundTint="@color/brand_gold"
         android:textColor="@android:color/white"/>
 
     <Button
         android:id="@+id/btnRemoveFromFavorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Retirer des favoris"
+        android:text="@string/action_remove_favorite"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/purple_500"
+        android:backgroundTint="@color/bg_surface_variant"
         android:textColor="@android:color/white"
         />
 

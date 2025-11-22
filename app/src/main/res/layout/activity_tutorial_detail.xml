@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bg_primary"
     android:padding="24dp">
 
     <ImageView
@@ -19,7 +20,7 @@
         android:layout_height="wrap_content"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:text="Nom du Tutoriel" />
+        android:text="@string/title_tutoriel_detail" />
 
     <TextView
         android:id="@+id/tvTutorialDescription"

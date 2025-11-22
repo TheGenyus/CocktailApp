@@ -2,8 +2,10 @@ package com.example.cocktailapp.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cocktailapp.R
 import com.example.cocktailapp.adapters.TutorialAdapter
 import com.example.cocktailapp.databinding.ActivityTutorialsBinding
 import com.example.cocktailapp.models.Tutorial
@@ -39,7 +41,7 @@ class TutorialsActivity : AppCompatActivity() {
                 adapter.updateData(tutorials)
             }
             .addOnFailureListener {
-                // Handle error if needed (toast, log, etc.)
+                Toast.makeText(this, getString(R.string.error_chargement_tutos), Toast.LENGTH_SHORT).show()
             }
     }
 }

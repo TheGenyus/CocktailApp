@@ -8,21 +8,22 @@
     tools:context=".ui.activities.SearchActivity">
 
     <!-- Top App Bar -->
-    <com.google.android.material.appbar.MaterialToolbar
+<com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarSearch"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:title="Rechercher"
-        android:titleTextColor="@android:color/white" />
+        android:background="@color/bg_surface"
+        android:title="@string/title_toolbar_search"
+        android:titleTextColor="@color/text_primary" />
 
     <!-- Main Content -->
 
-    <LinearLayout
+<LinearLayout
         android:id="@+id/searchContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/bg_primary"
         android:padding="16dp"
         android:gravity="top">
 
@@ -36,7 +37,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Veuillez entrer le nom du cocktail">
+            android:hint="@string/hint_search">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/searchEditText"

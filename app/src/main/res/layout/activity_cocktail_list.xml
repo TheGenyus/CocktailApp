@@ -4,6 +4,7 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_primary"
     tools:context=".ui.activities.CocktailListActivity">
 
     <!-- App Bar -->
@@ -11,9 +12,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:title="Liste des Cocktails"
-        android:titleTextColor="@android:color/white" />
+        android:background="@color/bg_surface"
+        android:title="@string/title_cocktail_list"
+        android:titleTextColor="@color/text_primary" />
 
     <!-- Cocktail List -->
     <androidx.recyclerview.widget.RecyclerView

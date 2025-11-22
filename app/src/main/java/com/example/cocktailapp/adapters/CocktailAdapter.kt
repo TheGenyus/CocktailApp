@@ -1,23 +1,17 @@
 package com.example.cocktailapp.adapters
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.R
 import com.example.cocktailapp.models.Cocktail
 import com.example.cocktailapp.ui.activities.CocktailDetailActivity
-import android.content.Intent
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class CocktailAdapter(private var cocktailList: List<Cocktail>) :
     RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
-
-    private val auth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CocktailViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,19 +23,18 @@ class CocktailAdapter(private var cocktailList: List<Cocktail>) :
         val cocktail = cocktailList[position]
         holder.bind(cocktail)
 
-        // Open detail on item click
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, CocktailDetailActivity::class.java).apply {
+                putExtra("cocktailId", cocktail.id)
                 putExtra("cocktailName", cocktail.name)
                 putExtra("cocktailGout", cocktail.flavourDescription)
                 putExtra("cocktailHistory", cocktail.history)
-                putExtra("cocktailExpertRating", cocktail.expertRating)
-                putExtra("cocktailDocId", cocktail.id)
-                putExtra("cocktailIngredients", ArrayList(cocktail.ingredients.map {
-                    "${it.quantity} ${it.name}"
-                }))
-                // putExtra("cocktailImage", cocktail.imageUrl) // optional
+                putExtra("cocktailExpertRating", cocktail.expertRating ?: 0.0)
+                putExtra(
+                    "cocktailIngredients",
+                    ArrayList(cocktail.ingredients.map { "${it.quantity} ${it.name}" })
+                )
             }
             context.startActivity(intent)
         }
@@ -52,7 +45,6 @@ class CocktailAdapter(private var cocktailList: List<Cocktail>) :
         notifyDataSetChanged()
     }
 
-
     override fun getItemCount(): Int = cocktailList.size
 
     class CocktailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -60,7 +52,6 @@ class CocktailAdapter(private var cocktailList: List<Cocktail>) :
 
         fun bind(cocktail: Cocktail) {
             tvCocktailName.text = cocktail.name
-            // Optionally reset icon based on favorite state
         }
     }
 }

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cocktailapp.R
 import com.example.cocktailapp.adapters.CocktailAdapter
 import com.example.cocktailapp.databinding.ActivityFavoritesBinding
 import com.example.cocktailapp.models.Cocktail
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FavoritesActivity : AppCompatActivity() {
@@ -41,37 +43,38 @@ class FavoritesActivity : AppCompatActivity() {
                     val favorites = document.get("favorites") as? List<String> ?: emptyList()
                     if (favorites.isNotEmpty()) {
                         fetchFavoriteCocktails(favorites)
+                    } else {
+                        adapter.updateData(emptyList())
+                        Toast.makeText(this, getString(R.string.info_aucun_favori), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Failed to load favorites", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.error_chargement_favoris), Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun fetchFavoriteCocktails(favoriteNames: List<String>) {
         val db = FirebaseFirestore.getInstance()
-        val cocktailList = mutableListOf<Cocktail>()  // your Cocktail model class
+        val fetched = mutableListOf<Cocktail>()
 
-        // Fetch all cocktails in a single query (if names are unique)
-        db.collection("cocktails")
-            .whereIn(
-                "name",
-                favoriteNames.take(10)
-            ) // Firestore has a limit of 10 items in `whereIn`
-            .get()
-            .addOnSuccessListener { documents ->
-                for (doc in documents) {
-                    val cocktail = doc.toObject(Cocktail::class.java)
-                    cocktailList.add(cocktail)
+        val chunks = favoriteNames.chunked(10)
+        if (chunks.isEmpty()) {
+            adapter.updateData(emptyList())
+            return
+        }
+
+        chunks.forEach { chunk ->
+            db.collection("cocktails")
+                .whereIn(FieldPath.documentId(), chunk)
+                .get()
+                .addOnSuccessListener { documents ->
+                    documents.mapNotNullTo(fetched) { it.toObject(Cocktail::class.java) }
+                    adapter.updateData(fetched)
                 }
-
-                // Bind to adapter
-                binding.recyclerViewFavorites.adapter = CocktailAdapter(cocktailList)
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to fetch cocktail details", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener {
+                    Toast.makeText(this, getString(R.string.error_chargement_cocktails_favoris), Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 }
-
