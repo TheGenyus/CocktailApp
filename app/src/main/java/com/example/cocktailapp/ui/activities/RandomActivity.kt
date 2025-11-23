@@ -36,10 +36,13 @@ class RandomActivity : AppCompatActivity() {
             selectRandomCocktail()
         }
 
-        // Add this to ensure content is below system UI
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.contentLayout)) { view, insets ->
+        // Keep content below status/navigation bars
+        val contentLayout = findViewById<android.view.View>(R.id.contentLayout)
+        val basePaddingBottom = contentLayout.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(contentLayout) { view, insets ->
             val systemInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.updatePadding(top = systemInsets.top)
+            val bottomPadding = systemInsets.bottom + basePaddingBottom
+            view.updatePadding(top = systemInsets.top, bottom = bottomPadding)
             insets
         }
     }
