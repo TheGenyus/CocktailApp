@@ -232,21 +232,10 @@
             android:id="@+id/btnFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/action_add_favorite"
+            android:text="Ajouter aux favoris"
             android:layout_marginTop="12dp"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="@color/brand_gold"
-            android:textColor="@android:color/white"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnRemoveFromFavorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_remove_favorite"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="center_horizontal"
-            android:backgroundTint="@color/bg_surface_variant"
             android:textColor="@android:color/white"
             android:visibility="gone" />
 

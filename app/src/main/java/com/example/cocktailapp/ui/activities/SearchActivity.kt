@@ -1,11 +1,13 @@
-package com.example.cocktailapp.ui.activities
+﻿package com.example.cocktailapp.ui.activities
 
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.GridLayout
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
@@ -18,7 +20,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var searchEditText: EditText
+    private lateinit var stepIngredients: LinearLayout
+    private lateinit var stepSearch: LinearLayout
+    private lateinit var nextButton: Button
+    private lateinit var backButton: Button
+
+    private lateinit var searchEditText: com.google.android.material.textfield.TextInputEditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CocktailAdapter
     private lateinit var ingredientContainer: GridLayout
@@ -31,6 +38,11 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_searsh)
 
+        stepIngredients = findViewById(R.id.stepIngredients)
+        stepSearch = findViewById(R.id.stepSearch)
+        nextButton = findViewById(R.id.btnNextToSearch)
+        backButton = findViewById(R.id.btnBackToIngredients)
+
         searchEditText = findViewById(R.id.searchEditText)
         recyclerView = findViewById(R.id.searchResultsRecyclerView)
         ingredientContainer = findViewById(R.id.ingredientContainer)
@@ -41,12 +53,21 @@ class SearchActivity : AppCompatActivity() {
 
         fetchAllCocktails()
 
-        // Apply filtering as the user types
+        nextButton.setOnClickListener {
+            stepIngredients.visibility = View.GONE
+            stepSearch.visibility = View.VISIBLE
+            applyFilters()
+        }
+
+        backButton.setOnClickListener {
+            stepSearch.visibility = View.GONE
+            stepIngredients.visibility = View.VISIBLE
+        }
+
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 applyFilters()
             }
-
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -63,7 +84,8 @@ class SearchActivity : AppCompatActivity() {
                     cocktail
                 }
 
-                setupIngredientButtons(allIngredients.filter { it.isNotBlank() }.toList().sorted())
+                val ingredientList = listOf("Tous") + allIngredients.filter { it.isNotBlank() }.toList().sorted()
+                setupIngredientButtons(ingredientList)
                 adapter.updateData(allCocktails)
             }
             .addOnFailureListener {
@@ -75,7 +97,9 @@ class SearchActivity : AppCompatActivity() {
         ingredientContainer.removeAllViews()
         ingredientContainer.columnCount = 2
 
-        ingredients.forEach { ingredient ->
+        var allCheckBox: CheckBox? = null
+
+        ingredients.forEachIndexed { index, ingredient ->
             val checkBox = CheckBox(this).apply {
                 text = ingredient
                 setPadding(8)
@@ -84,31 +108,56 @@ class SearchActivity : AppCompatActivity() {
                     height = GridLayout.LayoutParams.WRAP_CONTENT
                     setMargins(8, 8, 8, 8)
                 }
+            }
 
-                setOnCheckedChangeListener { _, isChecked ->
+            if (index == 0) {
+                allCheckBox = checkBox
+                checkBox.isChecked = true
+                selectedIngredients.clear()
+            }
+
+            checkBox.setOnCheckedChangeListener { _, isChecked ->
+                if (checkBox == allCheckBox) {
+                    if (isChecked) {
+                        selectedIngredients.clear()
+                        for (i in 0 until ingredientContainer.childCount) {
+                            val child = ingredientContainer.getChildAt(i)
+                            if (child is CheckBox && child != allCheckBox) {
+                                child.isChecked = false
+                            }
+                        }
+                    }
+                } else {
                     if (isChecked) {
                         selectedIngredients.add(ingredient)
+                        allCheckBox?.isChecked = false
                     } else {
                         selectedIngredients.remove(ingredient)
+                        if (selectedIngredients.isEmpty()) {
+                            allCheckBox?.isChecked = true
+                        }
                     }
-                    applyFilters()
                 }
+                applyFilters()
             }
+
             ingredientContainer.addView(checkBox)
         }
     }
 
     private fun applyFilters() {
-        val nameQuery = searchEditText.text.toString().trim()
-
+        val nameQuery = searchEditText.text?.toString()?.trim().orEmpty()
         val filtered = allCocktails.filter { cocktail ->
             val matchesName = nameQuery.isEmpty() || cocktail.name?.contains(nameQuery, ignoreCase = true) == true
-            val matchesIngredients = selectedIngredients.all { selected ->
-                cocktail.ingredients.any { it.name.equals(selected, ignoreCase = true) }
+            val matchesIngredients = if (selectedIngredients.isEmpty()) {
+                true
+            } else {
+                selectedIngredients.all { selected ->
+                    cocktail.ingredients.any { it.name.equals(selected, ignoreCase = true) }
+                }
             }
             matchesName && matchesIngredients
         }
-
         adapter.updateData(filtered)
     }
 }

@@ -30,7 +30,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:letterSpacing="0.04"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,27 +38,20 @@
                 android:text="Vos cocktails, partout."
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp"
-                android:paddingBottom="12dp"/>
-
-            <Button
-                android:id="@+id/btnAll"
-                android:text="@string/menu_tous_cocktails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
-
-            <Button
-                android:id="@+id/btnFavorites"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/menu_favoris"
-                android:layout_marginTop="8dp"/>
+                android:paddingBottom="12dp" />
 
             <Button
                 android:id="@+id/btnSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/menu_recherche"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnFavorites"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_favoris"
                 android:layout_marginTop="8dp" />
 
             <Button
