@@ -1,0 +1,33 @@
+ID: 10061
+Nom: Big Mac
+Source: https://www.diffordsguide.com/cocktails/recipe/10061/big-mac
+Image: https://cdn.diffordsguide.com/cocktail/r0gKXA/default/0/512x.webp?v=1737701613
+
+Ingrédients:
+- 45 ml
+- Speyside single malt Scotch whisky
+- 30 ml
+- Ginger wine
+- 75 ml
+- Thomas Henry Ginger Ale
+
+Recette / Préparation:
+
+
+Profil (force/goût):
+Score force (0-10): 6.0
+Score douceur/acidité (0-10): 6.0
+Note expert (1-5): 4.5
+Note membres (1-5): 3.5
+
+Avis:
+
+
+Histoire:
+Un riff volumisé sur un Whiskey Mac créé en juin 2021 par votre humble serviteur.
+
+Nutrition:
+One serving of Big Mac contains 153 calories
+
+Teneur en alcool:
+1.3 standard drinks 11.73% alc./vol. (23.46° proof) 17.6 grams of pure alcohol

@@ -1,0 +1,26 @@
+ID: 25
+Nom: Agent Orange
+Source: https://www.diffordsguide.com/cocktails/recipe/25/agent-orange
+Image: 
+
+Ingrédients:
+
+Recette / Préparation:
+
+
+Profil (force/goût):
+Score force (0-10): None
+Score douceur/acidité (0-10): None
+Note expert (1-5): None
+Note membres (1-5): None
+
+Avis:
+
+
+Histoire:
+
+
+Nutrition:
+
+
+Teneur en alcool:

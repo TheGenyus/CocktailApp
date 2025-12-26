@@ -13,3 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+scripts/firebase-service-account.json
+*firebase-adminsdk-*.json

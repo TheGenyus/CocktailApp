@@ -1,0 +1,44 @@
+ID: 1264
+Nom: Martinez (Difford's recipe)
+Source: https://www.diffordsguide.com/cocktails/recipe/1264/martinez-diffords-recipe
+Image: https://cdn.diffordsguide.com/cocktail/GRozJO/default/0/512x.webp?v=1737701576
+
+Ingrédients:
+- 60 ml
+- Oude genever
+- 22.5 ml
+- Strucchi Rosso Vermouth
+- 7.5 ml
+- Strucchi Dry Vermouth
+- 5 ml
+- Orange Curaçao liqueur
+- 1 dash
+- Angostura Aromatic Bitters
+
+Recette / Préparation:
+
+
+Profil (force/goût):
+Score force (0-10): 8.0
+Score douceur/acidité (0-10): 6.0
+Note expert (1-5): 5.0
+Note membres (1-5): 4.0
+
+Avis:
+Bilan : Votre choix de genièvre fera ou défaire ce fabuleux cocktail.Ma recette est basée sur un genièvre moyennement sec, rond et complexe (par exemple Rutte Old Simon ou Bokma Oude ) qui apportera une note de pain sous-jacente rafraîchie par le zeste d'orange du curaçao orange.Si vous utilisez un vin de malt plus élevé (moutwijn), plus de genièvre à l'ancienne (par exemple Old Duff), alors des parts égales de genièvre et de vermouth rosso fonctionnent bien, mais Philip Duff lui-même recommande : 30 ml (1 oz) de genièvre Oude 50 ml (1⅔ oz) de vermouth Rosso (doux) 5 ml (cuillère à soupe) Curaçao orange 1 trait d'amers aromatiques
+
+Histoire:
+Drinks historians broadly agree that the Martinez evolved from the Manhattan and preceded the Martini and that it emerged sometime in the 1860s or early 1870s. The first known recipe for a Martinez in O.H. Byron's 1884 The Modern Bartender would appear to corroborate both the rough time of its birth and its morphing from the Manhattan as Byron tellingly lists the Martinez as a variation of the Manhattan.
+Manhattan Cocktail, No. 2. 2 dashes Curacoa. 2    "   Angostura bitters. ½ wine-glass whisky. ½     "   Italian vermouth Fine ice ; stir well and strain into a cocktail glass. Martinez Cocktail. Same as Manhattan, only you substitute gin for whisky. O. H. Byron, The Modern Bartenders' Guide, 1884
+Byron's mention of the Martinez as being " Same as Manhattan, only you substitute gin for whisky " is complicated by its appearing on the same page as two different recipes for a Manhattan - one calling for 'dry' French vermouth and gum syrup, the other 'sweet' Italian vermouth and curaçao. However, given Byron's positioning of the Martinez directly below the Manhattan recipe calling for Italian vermouth and that sweet style of vermouth at the time being far more commonplace than the drier French vermouth, it could be argued that it's likely Byron used Italian vermouth to make his Martinez. Then there is the question of what gin? When Byron says gin, does he mean English old tom gin or Dutch genever - drier styled English gins (London dry) were not widely available in America until well into the 1890s. Fact is, there was little English gin distributed in America during the nineteenth century. To quote David Wondrich from his excellent 2015 Imbibe , "In the 1850s, the port of New York was clearing between 4,500 and 6,000 120-gallon pipes of genever a year (roughly equal to some 2.7 to 3.6 million 750-millilitre bottles) as opposed to 10 to 20 pipes of English gin. Moreover, if distillers' handbooks are to be believed, domestic American gins were modelled on the heavier, maltier Dutch style rather than the lighter, cleaner English style." If, as appears likely, the Martinez emerged as a riff on the whiskey-based Manhattan, it is not only availability that would have made Dutch genever the more likely 'gin' to have been used in the first Martinez. The mellower, rounder, and particularly malty style of the malt-wine heavy Dutch genevers of the period are much closer to that of whiskey, the original ingredient, than the sharper piney English old tom gins. It was a simple riff by the bartender who substituted a malty genever for whiskey to make the first Martinez. The early period of American cocktail bartending was, of course, dominated by the flamboyant 'Doctor' Jerry Thomas who preceded his compatriot, Byron, by publishing the first known bartender's guide in 1862. Tellingly, the Doctor omitted the Martinez from this first edition and his second 1876 edition. Whether this was because he'd not come across the cocktail, it had not yet come into being, or he simply forgot it is unknown. However, claims that he invented the Martinez seem unlikely. His bravado was such that he'd have told all who'd listen, leaving a paper trail for us to follow, as is the case for the Tom & Jerry , a drink he defiantly didn't create. In that first 1862 edition of Jerry Thomas' book, he includes 17 gin drinks with only one, 'Punch by Soyer', specifying what kind of gin, "old gin". As mentioned above, given the lack of English gin available at the time, either sweetened or dry in style, it is assumed that when he writes "gin", Thomas was actually referring to genever, which at that time would have been 100% malt wine genever. The Martinez Cocktail does appear in the 1887 edition of Jerry Thomas' The Bar-tender's Guide (published posthumously two years after his death) specifying "1 pony of Old Tom gin" and apart from the base spirit, the recipe is strikingly similar to for the Manhattan Cocktail on the opposite page.
+Martinez Cocktail. (Use small bar-glass) Take 1 dash Boker's bitters. 2 dashes of Maraschino. 1 pony of Old Tom gin. 1 wine-glass of Vermouth. 2 small lumps of ice. Shale up thoroughly, and strain into a large cocktail glass.  Put a quarter slice of lemon in glass, and serve.  If the guest prefers it very sweet add two dashes of gum syrup. Jerry Thomas, The Bar-tender's Guide, 1887
+Sadly, neither Jerry Thomas' Manhattan or Martinez recipes specify whether to use Italian vermouth or drier French vermouth, but Italian 'sweet' vermouth was far more commonplace in America at the time. This dry or sweet vermouth question is not answered in the next appearance for a cocktail specifically named Martinez in Stuart's Fancy Drinks from 1896. Indeed, this appears to be a rip-off of O H Byron's 1884 book with virtually identical recipes. The next appearance for the Martinez (page 55 in the 1905 Consolidated Library of Modern Cooking and Household Recipes, volume 5 by Christine Terhune Herrick and M. Harland ) also fails to answer the vermouth question but continues the trend for the use of old tom gin over Dutch genever. If genever was in the original Martinez, it would appear to have quickly fallen out of favour in this and other American cocktails as old tom and then London dry became fashionable. It's worth pointing out that this 'Consolidated Library' recipe is very similar Jerry Thomas' above and also to that for the Manhattan which precedes it in the book.
+Martinez Cocktail. Shake up well, and then strain into a large cocktail glass 1 dash of Boker's bitters, 2 dashes of maraschino, 1 pony of Old Tom gin, 1 wine-glassful of vermouth, 2 small lumps of ice. Add a slice of lemon, and gum syrup if desired, as in the last recipe. Christine Terhune Herrick and M. Harland, Consolidated Library of Modern Cooking and Household Recipes volume 5, 1905
+Vermeire's 1922 Martinez In London bartender Robert Vermeire's 1922 Cocktails: How to Mix Them he features multiple Martinez recipes.
+Martinez Cocktail. The Martinez Cocktail is very similar to the Manhattan Cocktail, but gin is used instead of Whiskey. Fill the bar glass half full of broken ice and add: 2 dashes of Orange Bitters 3 dashes of Curacao or Maraschino ¼ gill of Old Tom Gin ¼ gill of French Vermouth Stir up well, strain into a cocktail-glass, add olive or cherry to taste, and squeeze lemon peel on top. This drink is very popular on the Continent. In England the Martinez Cocktail generally contains the following ingredients: 2 dashes of Orange Syrup 2 dashes of Angostura Bitters ¼ gill of Plymouth Gin ¼ gill of French Vermouth The whole stirred up in ice in the bar glass, strained into a cocktail-glass with lemon-peel squeezed on top. Olive or cherry according to taste. Third Degree The Third Degree is a Martinez Cocktail (Continental style) with a dash of Absinthe and an olive, but 2/6 gill of Gin and 1/6 of French Vermouth should be used. Fourth Degree The Fourth Degree is a Martinez Cocktail (Continental style) with a dash of Absinthe and a cherry, but ¼ gill of Gin, 1/8 gill of French Vermouth, 1/8 gill of Vermouth should be used. Robert Vermeire, Cocktails - How to Mix Them, 1922
+
+Nutrition:
+One serving of Martinez (Difford's recipe) contains 156 calories
+
+Teneur en alcool:
+1.7 standard drinks 25.68% alc./vol. (51.37° proof) 24.5 grams of pure alcohol

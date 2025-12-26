@@ -1,0 +1,35 @@
+ID: 3000
+Nom: Noblesse
+Source: https://www.diffordsguide.com/cocktails/recipe/3000/noblesse
+Image: https://cdn.diffordsguide.com/cocktail/Ov84PA/default/0/512x.webp?v=1737701590
+
+Ingrédients:
+- 22.5 ml
+- Cognac (brandy)
+- 22.5 ml
+- Bénédictine D.O.M. liqueur
+- 15 ml
+- Lime juice (freshly squeezed)
+- 30 ml
+- Cranberry juice (sweetened)
+
+Recette / Préparation:
+
+
+Profil (force/goût):
+Score force (0-10): 7.0
+Score douceur/acidité (0-10): 7.0
+Note expert (1-5): 4.0
+Note membres (1-5): 4.0
+
+Avis:
+Avis : Un cocktail apéritif léger, aigre-doux, herbacé et fruité.
+
+Histoire:
+Recette adaptée de Gary "gaz" Regan's Ardent Spirits de novembre 2010.
+
+Nutrition:
+One serving of Noblesse contains 141 calories
+
+Teneur en alcool:
+0.9 standard drinks 14.71% alc./vol. (29.41° proof) 13.2 grams of pure alcohol
