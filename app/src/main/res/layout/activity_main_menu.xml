@@ -69,6 +69,20 @@
                 android:layout_marginTop="8dp" />
 
             <Button
+                android:id="@+id/btnCreateParty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_creer_soiree"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnJoinParty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_rejoindre_soiree"
+                android:layout_marginTop="8dp" />
+
+            <Button
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

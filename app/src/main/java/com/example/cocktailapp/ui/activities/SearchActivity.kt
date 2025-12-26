@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.R
 import com.example.cocktailapp.adapters.CocktailAdapter
 import com.example.cocktailapp.models.Cocktail
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchActivity : AppCompatActivity() {
@@ -26,6 +27,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var backButton: Button
 
     private lateinit var searchEditText: com.google.android.material.textfield.TextInputEditText
+    private lateinit var ingredientFilterInput: TextInputEditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CocktailAdapter
     private lateinit var ingredientContainer: GridLayout
@@ -33,6 +35,7 @@ class SearchActivity : AppCompatActivity() {
     private val firestore = FirebaseFirestore.getInstance()
     private var allCocktails = listOf<Cocktail>()
     private val selectedIngredients = mutableSetOf<String>()
+    private var baseIngredients: List<String> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,7 @@ class SearchActivity : AppCompatActivity() {
         backButton = findViewById(R.id.btnBackToIngredients)
 
         searchEditText = findViewById(R.id.searchEditText)
+        ingredientFilterInput = findViewById(R.id.ingredientFilterInput)
         recyclerView = findViewById(R.id.searchResultsRecyclerView)
         ingredientContainer = findViewById(R.id.ingredientContainer)
 
@@ -65,9 +69,13 @@ class SearchActivity : AppCompatActivity() {
         }
 
         searchEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                applyFilters()
-            }
+            override fun afterTextChanged(s: Editable?) { applyFilters() }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        ingredientFilterInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) { filterIngredientList() }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -84,13 +92,24 @@ class SearchActivity : AppCompatActivity() {
                     cocktail
                 }
 
-                val ingredientList = listOf("Tous") + allIngredients.filter { it.isNotBlank() }.toList().sorted()
-                setupIngredientButtons(ingredientList)
+                baseIngredients = listOf("Tous") + allIngredients.filter { it.isNotBlank() }.toList().sorted()
+                setupIngredientButtons(baseIngredients)
                 adapter.updateData(allCocktails)
             }
             .addOnFailureListener {
                 Toast.makeText(this, getString(R.string.error_loading_cocktails_simple), Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun filterIngredientList() {
+        val query = ingredientFilterInput.text?.toString()?.trim().orEmpty()
+        val filtered = if (query.isEmpty()) {
+            baseIngredients
+        } else {
+            val others = baseIngredients.drop(1).filter { it.contains(query, ignoreCase = true) }
+            listOf(baseIngredients.first()) + others
+        }
+        setupIngredientButtons(filtered)
     }
 
     private fun setupIngredientButtons(ingredients: List<String>) {
@@ -112,8 +131,9 @@ class SearchActivity : AppCompatActivity() {
 
             if (index == 0) {
                 allCheckBox = checkBox
-                checkBox.isChecked = true
-                selectedIngredients.clear()
+                checkBox.isChecked = selectedIngredients.isEmpty()
+            } else {
+                checkBox.isChecked = selectedIngredients.contains(ingredient)
             }
 
             checkBox.setOnCheckedChangeListener { _, isChecked ->

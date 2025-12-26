@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/bg_primary">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarJoin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_surface"
+        android:title="@string/menu_rejoindre_soiree"
+        android:titleTextColor="@color/text_primary" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/joinContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/party_saisir_code"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputPartyCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnJoin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/party_rejoindre"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/tvPartyStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_secondary"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btnShowCocktails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Voir les cocktails disponibles"
+        android:layout_marginTop="12dp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/partyCocktailList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="12dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnShowOrders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Voir mes commandes"
+        android:layout_marginTop="8dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnLeaveParty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/party_quitter"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone" />
+</LinearLayout>

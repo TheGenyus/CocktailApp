@@ -31,6 +31,14 @@ class MainMenuActivity : AppCompatActivity() {
             startActivity(Intent(this, TutorialsActivity::class.java))
         }
 
+        findViewById<Button>(R.id.btnCreateParty).setOnClickListener {
+            startActivity(Intent(this, CreatePartyActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnJoinParty).setOnClickListener {
+            startActivity(Intent(this, JoinPartyActivity::class.java))
+        }
+
         logoutBtn = findViewById(R.id.btnLogout)
         logoutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()

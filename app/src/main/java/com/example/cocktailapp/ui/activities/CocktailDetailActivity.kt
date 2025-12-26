@@ -17,6 +17,7 @@ class CocktailDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCocktailDetailBinding
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+    private var partyCode: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +25,7 @@ class CocktailDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val cocktailId = intent.getStringExtra("cocktailId")
+        partyCode = intent.getStringExtra("partyCode")
         if (cocktailId.isNullOrBlank()) {
             Toast.makeText(this, getString(R.string.error_cocktail_inconnu), Toast.LENGTH_SHORT).show()
             finish()
@@ -118,41 +120,22 @@ class CocktailDetailActivity : AppCompatActivity() {
         setSection(binding.tvTitleAlcohol, binding.tvAlcohol, cocktail.alcoholContent)
         setSection(binding.tvTitleGout, binding.tvGout, cocktail.flavourDescription)
 
-        // Favorites toggle
-        val userId = auth.currentUser?.uid
-        if (userId == null) {
-            binding.btnFavorite.visibility = View.GONE
-        } else {
-            binding.btnFavorite.visibility = View.VISIBLE
-            firestore.collection("users").document(userId)
-                .get()
-                .addOnSuccessListener { doc ->
-                    val favorites = doc.get("favorites") as? List<*> ?: emptyList<Any>()
-                    var isFav = favorites.contains(cocktailId)
-                    updateFavoriteButton(isFav)
-                    binding.btnFavorite.setOnClickListener {
-                        val targetState = !isFav
-                        val updateOp = if (targetState) FieldValue.arrayUnion(cocktailId) else FieldValue.arrayRemove(cocktailId)
-                        firestore.collection("users").document(userId)
-                            .update("favorites", updateOp)
-                            .addOnSuccessListener {
-                                isFav = targetState
-                                updateFavoriteButton(isFav)
-                                val msg = if (isFav) {
-                                    getString(R.string.info_favori_ajoute, name)
-                                } else {
-                                    getString(R.string.info_favori_retrait, name)
-                                }
-                                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-                            }
-                            .addOnFailureListener { e ->
-                                Toast.makeText(this, getString(R.string.error_favori, e.message ?: ""), Toast.LENGTH_SHORT).show()
-                            }
-                    }
+        // Favorites buttons
+        binding.btnFavorite.visibility = View.VISIBLE
+        binding.btnFavorite.setOnClickListener {
+            val currentUserId = auth.currentUser?.uid ?: return@setOnClickListener
+            firestore.collection("users").document(currentUserId)
+                .update("favorites", FieldValue.arrayUnion(cocktailId))
+                .addOnSuccessListener {
+                    Toast.makeText(this, getString(R.string.info_favori_ajoute, name), Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, getString(R.string.error_favori, e.message ?: ""), Toast.LENGTH_SHORT).show()
                 }
         }
 
         // User rating
+        val userId = auth.currentUser?.uid
         if (userId == null) {
             binding.userRatingBar.visibility = View.GONE
             binding.saveRatingButton.visibility = View.GONE
@@ -184,6 +167,37 @@ class CocktailDetailActivity : AppCompatActivity() {
                     }
             }
         }
+
+        // Party order (si on vient d'une soiree)
+        val party = partyCode
+        if (party.isNullOrBlank()) {
+            binding.btnPartyOrder.visibility = View.GONE
+        } else {
+            binding.btnPartyOrder.visibility = View.VISIBLE
+            binding.btnPartyOrder.setOnClickListener {
+                val currentUser = auth.currentUser?.uid
+                if (currentUser == null) {
+                    Toast.makeText(this, getString(R.string.error_login_failed), Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                val data = hashMapOf(
+                    "userId" to currentUser,
+                    "cocktailId" to cocktailId,
+                    "cocktailName" to name,
+                    "status" to "pending",
+                    "createdAt" to System.currentTimeMillis()
+                )
+                firestore.collection("parties").document(party)
+                    .collection("orders")
+                    .add(data)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, getString(R.string.party_commander), Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, getString(R.string.party_error_commande) + " : " + (e.message ?: ""), Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
     }
 
     private fun setSection(title: View, contentView: View, text: String?) {
@@ -204,9 +218,5 @@ class CocktailDetailActivity : AppCompatActivity() {
                 contentView.visibility = View.GONE
             }
         }
-    }
-
-    private fun updateFavoriteButton(isFavorite: Boolean) {
-        binding.btnFavorite.text = if (isFavorite) "Retirer des favoris" else "Ajouter aux favoris"
     }
 }

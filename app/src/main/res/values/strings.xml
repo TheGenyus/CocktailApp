@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CocktailApp</string>
     <string name="error_login_failed">Connexion echouee.</string>
@@ -46,4 +46,34 @@
     <string name="title_cocktail_list">Liste des cocktails</string>
     <string name="title_tutoriels">Liste des tutoriels</string>
     <string name="title_tutoriel_detail">Nom du tutoriel</string>
+
+    <!-- Soirees -->
+    <string name="menu_creer_soiree">Creer une soiree</string>
+    <string name="menu_rejoindre_soiree">Rejoindre une soiree</string>
+    <string name="party_code_label">Code soiree</string>
+    <string name="party_creer">Creer la soiree</string>
+    <string name="party_rejoindre">Rejoindre la soiree</string>
+    <string name="party_saisir_code">Entrer le code (8 caracteres)</string>
+    <string name="party_seuil_manquants">Nombre max d\'ingredients manquants</string>
+    <string name="party_ingredients_disponibles">Ingredients disponibles</string>
+    <string name="party_cocktails_disponibles">Cocktails disponibles</string>
+    <string name="party_dashboard_titre">Tableau de bord barman</string>
+    <string name="party_ajouter_cocktail">Ajouter un cocktail a la soiree</string>
+    <string name="party_ajouter_barman">Ajouter un barman</string>
+    <string name="party_commandes_en_attente">Commandes en attente</string>
+    <string name="party_clore">Clore la soiree</string>
+    <string name="party_commander">Commander</string>
+    <string name="party_quitter">Quitter la soiree</string>
+    <string name="party_statut_pending">En attente</string>
+    <string name="party_statut_preparation">En preparation</string>
+    <string name="party_statut_servi">Servi</string>
+    <string name="party_statut_btn_preparation">En preparation</string>
+    <string name="party_statut_btn_servi">Servi</string>
+    <string name="party_info_code">Code de la soiree : %1$s</string>
+    <string name="party_info_creee">Soiree creee.</string>
+    <string name="party_info_rejointe">Soiree rejointe.</string>
+    <string name="party_error_code">Code invalide ou soiree inactive.</string>
+    <string name="party_error_creation">Creation impossible.</string>
+    <string name="party_error_commande">Commande impossible.</string>
+    <string name="party_error_chargement">Chargement impossible.</string>
 </resources>
