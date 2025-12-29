@@ -1,4 +1,4 @@
-﻿package com.example.cocktailapp.ui.activities
+package com.example.cocktailapp.ui.activities
 
 import android.os.Bundle
 import android.view.View
@@ -46,7 +46,8 @@ class CocktailDetailActivity : AppCompatActivity() {
                     finish()
                     return@addOnSuccessListener
                 }
-                renderCocktail(cocktailId, cocktail)
+                val imageFromDocument = document.getString("image")
+                renderCocktail(cocktailId, cocktail, imageFromDocument)
             }
             .addOnFailureListener {
                 Toast.makeText(this, getString(R.string.error_cocktail_inconnu), Toast.LENGTH_SHORT).show()
@@ -54,16 +55,19 @@ class CocktailDetailActivity : AppCompatActivity() {
             }
     }
 
-    private fun renderCocktail(cocktailId: String, cocktail: Cocktail) {
+    private fun renderCocktail(cocktailId: String, cocktail: Cocktail, imageFallback: String?) {
         val name = cocktail.name ?: getString(R.string.label_nom_inconnu)
         binding.tvName.text = name
 
-        // Image
-        if (!cocktail.imageUrl.isNullOrBlank()) {
+        // Image (fallback on "image" field used by JSON export, center crop to avoid huge size)
+        val imageUrl = cocktail.imageUrl?.takeIf { it.isNotBlank() } ?: imageFallback
+        if (!imageUrl.isNullOrBlank()) {
             binding.ivImage.visibility = View.VISIBLE
             Glide.with(this)
-                .load(cocktail.imageUrl)
+                .load(imageUrl)
                 .placeholder(R.drawable.ic_launcher_foreground)
+                .centerCrop()
+                .override(binding.ivImage.width.takeIf { it > 0 } ?: 512, 320)
                 .into(binding.ivImage)
         } else {
             binding.ivImage.visibility = View.GONE

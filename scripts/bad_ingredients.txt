@@ -1,0 +1,777 @@
+1 | Abacaxi Ricaço
+1001 | Icy Pink Lemonade
+10024 | Black River
+10030 | Bon Vivant
+10032 | Expense Account
+1011 | Indian Rose
+1026 | Irish Latte
+10310 | The Very Last Word
+1035 | Jack Dempsey
+1043 | Jade Daiquiri
+1048 | Jalisco Espresso
+1052 | Jambouree
+1055 | Japanese Cocktail
+1058 | Jasmine
+1060 | Jean Gabin
+1072 | Journalist
+1076 | Julep Martini
+1101 | Key Lime Pie #1
+1108 | Kir Cocktail
+1122 | Kool Hand Luke
+1126 | Kurrant Affair
+1129 | Lavender Martini
+1130 | Lavender Margarita
+1133 | Last Word
+1138 | Legend Reviver
+1146 | Lemonhead
+1149 | Lemon Sorbet
+1165 | Limey
+1170 | Limnology
+1173 | Linstead
+1185 | London Cocktail
+1191 | Long Island Spiced Tea
+12 | Acapulco Daiquiri
+1205 | Lychee & Blackcurrant Cocktail
+1219 | Mai Tai (Trader Vic's)
+1223 | Maiden's Prayer
+1232 | Mandarine Sidecar
+124 | Avalanche
+125 | Avalanche Shot
+1254 | Margarita (straight-up)
+1255 | Margarita on-the-rocks (Difford's recipe)
+1260 | Marmalade Cocktail
+1262 | Marny Cocktail
+127 | Aviation Cocktail (Difford's recipe)
+1270 | Mary Rose
+1282 | Medium Martini
+1285 | Melon Daiquiri #1 (served 'up')
+1287 | Melon Margarita #1 (served 'up')
+1288 | Melon Margarita #2 (served frozen)
+1290 | Melon Martini (fresh fruit)
+1305 | Mexican Melon Ball
+1312 | Miami Daiquiri
+1316 | Milk & Honey
+1319 | Million Dollar Cocktail
+1324 | Mimosa
+1328 | Mint Daiquiri
+1345 | Momisette
+1349 | Monkey Gland
+1360 | Moon River
+1363 | Morning Glory
+1364 | Morning Glory Fizz
+1368 | Mountain Cocktail
+1378 | Mule's Hind Leg
+1383 | Hotel Nacional Special
+1404 | Night & Day
+1425 | Oh Gosh!
+1428 | Old Fashioned Cocktail (muddled fruit version)
+1432 | Olympic
+1444 | Orange Daiquiri No.2
+145 | Bahamas Daiquiri
+1454 | Painkiller
+1464 | Pancho Villa
+1472 | Park Avenue
+1476 | Pass-on-That
+1477 | Passbour Cooler
+1478 | Passion Fruit Caipirinha
+1480 | Passion Fruit Daiquiri
+1481 | Passion Fruit Margarita
+1482 | Passion Fruit Martini
+1483 | Passion Fruit Martini (simple)
+1484 | Passion Fruit Cocktail
+1487 | Passion Fruit Rum Punch
+149 | Balalaika
+1491 | Peach Daiquiri
+1496 | Pear & Vanilla Rickey
+1499 | Pear-Shaped Spritz
+1500 | Pear Shaped
+1504 | Pendennis Club Special
+1506 | Peppered Mary
+1510 | Periodista Daiquiri
+1511 | Black Cocktail
+1528 | Pineapple & Cardamom Daiquiri
+1536 | Pineapple Margarita
+1539 | Pini
+1541 | Pink Daiquiri
+1544 | Pink Gin
+1554 | Pino Pepe
+1555 | Funky Pirate Daiquiri
+1557 | Pisco Punch (Difford's recipe)
+1564 | Piscola
+1588 | Pontberry Martini
+1590 | Port & Melon Cocktail
+1600 | Prince Charlie
+1606 | Princeton
+1607 | Princeton Martini
+162 | Banana Daiquiri
+1621 | Quarter Deck
+1628 | Ramos Gin Fizz
+1630 | Raspberry Caipirinha
+1631 | Raspberry Collins
+1633 | Raspberry Debonnaire
+1636 | Raspberry 'Martini' (by Dick Bradsell)
+165 | Banoffee Cocktail
+1650 | Real Lemonade
+1652 | Red Angel 'Martini'
+1660 | Red Melon'tini
+1670 | Resolute
+1674 | Rhubarb & Lemongrass Cocktail
+1675 | Ribalaigua Daiquiri
+1677 | Ritz Cocktail
+1678 | Riviera Breeze
+1680 | The Roadrunner
+1685 | Rocky Mountain Rootbeer
+1687 | Roger
+1696 | Rosita
+1699 | Roulette
+1709 | Rude Cosmopolitan
+171 | Barnacle Bill
+1713 | Rum Punch-Up
+1714 | Rumba
+1727 | Saint Clements
+173 | Barnum Was Right
+1730 | Sake'Politan
+1735 | Salty Dog
+1739 | Sandygaff
+1746 | Santiago Daiquiri
+1755 | Scofflaw
+1756 | Scorpion
+1760 | The Scott
+1762 | Screwdriver (Difford's recipe)
+1764 | Seventh Heaven No.2
+1773 | Sidecar (Difford's recipe)
+1780 | Sloe Gin Fizz
+1788 | Snyder Martini
+1792 | Sorrelade
+180 | Basil Mary
+1805 | Screaming Banana Banshee
+1813 | Sgroppino / Sorbetto
+1814 | Shamrock
+1822 | Silent Third
+1823 | Silver Gin Fizz
+1830 | Sling (Generic Name)
+1836 | Snakebite
+1839 | Snowfall Cocktail
+1849 | South Side Royale
+1877 | Stork Club
+188 | Be-ton
+1885 | Strawberry Daiquiri (frozen)
+1888 | Strawberry & Balsamic Mojito
+189 | Beach Blonde
+1890 | Stupid Cupid
+1904 | Sunstroke
+1909 | Swedish Blue Cocktail
+191 | Beachcomber
+1914 | Tailor Made
+1927 | Tennessee Berry Mule
+1934 | Tequila Sour
+1947 | Three Miller
+1960 | Tiramisu Cocktail
+1968 | Tokyo Iced Tea
+1975 | Tommy's Margarita
+1977 | Too Close For Comfort
+198 | Behemoth
+1995 | Tropical Caipirinha
+2016 | Upside-Down Raspberry Cheesecake
+2019 | USB Cocktail
+202 | Bellini (Difford's recipe)
+2022 | Valencia Cocktail No. 2
+2027 | Vanilla & Raspberry Cocktail
+2028 | Vanilla Daiquiri
+2037 | Vavavoom
+205 | Bentley
+2054 | Vodkatini / Vodka Martini
+206 | Berry Caipirinha
+2063 | Warsaw
+2067 | Watermelon & Basil Cocktail
+2072 | Webster Cocktail
+2075 | Dry Martini (2:1 ratio) Wet
+2083 | Whiskey Sour (Difford's recipe)
+2091 | White Lady
+2092 | White Lion (David Embury's recipe)
+2094 | White Sangria
+2110 | Woo Woo
+2115 | Yellow Parrot
+2116 | Yule Luvit (shot)
+2124 | Zelda Cocktail
+2126 | Zeus Cocktail
+2128 | Zingy Ginger Cocktail
+2131 | Zombie
+2135 | Addington
+214 | Bikini Martini
+2143 | Bacardi Special
+2153 | Daiquiri No. 1 (Embury's 8:2:1 formula)
+2154 | Daiquiri No. 2
+2155 | El Presidente (with rhum agricole)
+2158 | Embassy Cocktail
+2159 | Fair & Warmer No. 2
+2160 | Fairbanks No.1
+2161 | Fancy Brandy
+2164 | Fix (Generic Name)
+2175 | Golden Bronx
+2183 | Huapala
+2185 | Larchmont
+2188 | Mint & Honey Daiquiri
+2194 | Punch (Generic Name)
+2196 | Saratoga Cocktail
+2198 | Silver Bronx
+2200 | Southside
+2201 | Strawberry Blonde
+222 | Black & Tan
+224 | Blackbeard
+2254 | Arbuz
+2260 | Astoria
+2272 | Banana Flambé
+2275 | Bartender's Mum
+2277 | Basil Crush
+2291 | Berry Smash
+2293 | Bicardar
+2305 | Blood Sage
+2307 | Bloody Mary (Difford's recipe)
+2316 | Bonsoni
+2317 | Bouquet
+2328 | Caipi
+2329 | Caipiruva Bacchanalia
+2330 | Campirinha
+2340 | Churchill Martini
+2341 | Cider House Rules
+2343 | Clara Astié Cocktail
+2346 | Cloysters
+2352 | Colony
+2355 | Corpse Reviver No.2 (Contemporary Recipe)
+2365 | Daiquiri (on-the-rocks)
+2368 | Daiquiri No. 4
+2369 | Daiquiri No. 5 (Pink Daiquiri)
+2371 | Damn It Jimmy
+2386 | Dry Daiquiri
+2395 | Eastern Sin
+2397 | Eighteen '97
+2398 | Elixir 66
+24 | Aged Honey Daiquiri
+2400 | Especie
+2408 | Fitzgerald
+2417 | Frisco Sour
+2420 | Gin Daisy (Jerry Thomas style)
+2429 | Grand Designs
+2434 | Green Melon Sour
+2437 | Habanero
+2440 | Hesitation
+2453 | Indochine
+246 | Blood Orange Cocktail
+2461 | Kangaroo
+2467 | Lemon Caipirovska
+247 | Bloody Joseph
+2476 | Lorraine
+2477 | Love Unit
+248 | Bloody Maria
+2481 | Mañana Daiquiri
+2483 | Margaret Duffy
+2487 | Martí's Martini
+2491 | Martinez (Orange)
+2497 | Mezcal Margarita
+2508 | Dry Martini (15:1 ratio) Montgomery's
+2511 | Mosquito
+2512 | Mulata Daisy
+252 | Virgin Mary or Bloody Shame
+2521 | The Ninth Ward
+2551 | Purgatory
+2562 | Richmond Gimlet
+2565 | Rum Amandine
+2572 | Tropical Saratoga
+2573 | Satin Sheet
+2574 | Say Say
+2576 | Shandygaff
+258 | Blue Cosmo
+2581 | Smokey Joe
+259 | Blue Fin
+2590 | Swedish Rum Punch
+2593 | Thai Red Daiquiri
+2602 | Walnut Alexander
+2623 | De La Louisiane No. 3
+2625 | Deauville
+2630 | Doctor No. 1
+2633 | Dream Cocktail
+2637 | Elder Aviator
+2639 | Elder Sour
+2641 | Elderflower Daiquiri
+2649 | English Breakfast Cocktail
+2651 | Every-Body's Irish Cocktail
+2661 | Froupe Cocktail
+2668 | Gin Atomic
+2669 | Glad Eye Cocktail
+2675 | Green Dragon
+2676 | Green Glazier
+2679 | Greenbelt
+2688 | Hop Toad #3
+2692 | Hurricane (by Chris McMillian)
+2694 | Irresistible
+2701 | Jewel
+2704 | King Cole Cocktail
+2709 | Lucien Gaudin
+2711 | Marie Rose
+2713 | Mood Indigo
+2719 | Nuclear Daiquiri
+2720 | Obituary
+2731 | Peruvian Elder Sour
+2739 | The Puritan
+2749 | Sidecarriage
+2750 | Silk Panties
+2752 | The Bird Is The Word No. 2
+2754 | Teresa
+2762 | Waters of Chaos
+2776 | BBC (by Marian Beke)
+2782 | Black Tie
+2785 | Brooklyn
+2788 | Carroll Gardens
+2800 | Four Aces
+2809 | Clover Club (House-Made)
+2814 | Lady's Sidecar
+2829 | Novara
+283 | Bolero
+2835 | Precursory Cocktail
+2839 | Rococoa
+2848 | Scotch Sour
+2857 | Smokestack Lightning
+286 | Bombay No. 2
+2861 | Summit
+2868 | Velvet Threesome
+2883 | Porn Star Martini
+2894 | Pickleback
+2906 | Rusty Margarita
+2914 | Charlie Chaplin Cocktail
+2922 | Daiquiri No. 1 (countdown 3:2:1 formula)
+2925 | Devil's Horn
+2929 | Fandango
+2938 | Woodside
+2940 | Irish Rose
+2941 | Whoop It Up
+2960 | Maya Margarita
+2966 | Prince of Wales Punch
+2972 | Grand 'O'
+2973 | Grand Sour
+2974 | Beuser & Angus Special
+2975 | Hey Hey
+2979 | Grounds For Divorce
+2985 | La Louisiane
+2986 | Machine Head
+2994 | Monte Cassino
+2999 | Netherland Cocktail
+3 | Abbey
+3010 | Pop My Cherry
+3017 | Rhine Wine Cobbler
+3029 | Corn 'n' Oil
+303 | Bradford Martini
+3030 | Blue Lassi
+3032 | Pineapple Lassi Cocktail
+3033 | Raita Cocktail
+3036 | Banana Smoothie
+3056 | Bénédictine Conversion
+3058 | Diamondback
+3072 | Gentleman's Agreement
+3079 | Teaquila
+3097 | Holland House (Kappeler's rye-based)
+310 | Brandy Crusta
+3100 | Messianic Cocktail
+3105 | Le Daiquiri Français (Daiquiri No.2)
+3108 | Grand Claret Punch
+3111 | The Prince of Wales
+3113 | Dry Martini (3:1 ratio)
+3114 | Dry Martini (7:1 ratio) Embury's
+3115 | Dry Martini (2:1.5 ratio) Sopping Wet
+3117 | Gin Salad Dry Martini
+3122 | Christmas Pudding & Custard Cocktail
+3124 | Christmopolitan
+3135 | Black Raspberry Sour
+3136 | Cucumber Fix
+3143 | Fire & Passion
+3159 | Pink Squared
+3177 | Century Old Fashioned
+3182 | Miss Collins
+3193 | Nam Sum Kun
+3199 | Belvedere Clover Club
+3205 | Italian Summer Punch
+3206 | Green Goddess Punch
+3208 | Jasmine Cooler
+321 | Breakfast At Terrell's
+3214 | Lt. Collins
+3215 | Half & Half
+3219 | Kumquat Mule
+3235 | Belvedere The Corpse Revival
+3238 | Fen Ella
+3239 | Kopstoot
+3243 | Maid in Cuba
+3244 | Death Flip
+3247 | Made Man
+3248 | Wolf Ticket
+3249 | Rapscallion
+325 | Bronx
+3255 | Dopo Cena
+3256 | Garden, Grain & Grape
+3262 | Agua De Cuba
+3264 | Anis-thetic
+3276 | Easy Speak
+3278 | Elderflower Gin Fizz
+3296 | New Orleans Gin Fizz
+33 | Alaska (Savoy recipe)
+331 | Buck's Fizz
+334 | Bulldog
+3353 | Parma Violet Spritz
+3355 | Raspberry Frangipane Spritz
+3360 | Gennaro's Sidecar
+3373 | Hi Life Spritz
+3377 | Pina Colada (Difford's recipe)
+3384 | Blanche Corpse Reviver
+3393 | Turf Club (1895, George Kappeler)
+3394 | Turf Club (1900, Harry Johnson)
+3398 | New York Sour
+3408 | Gingerbread Martini
+3415 | Saint-Marc Daiquiri
+3418 | Absinthe Makes The Heart Grow Fonder
+342 | Butterfly's Kiss
+3420 | White Negroni
+3422 | Midtown Muse
+3425 | Watermelon Batida
+3441 | Latest Word
+3442 | Toronto
+3444 | Doctor No. 4
+3447 | Next to Last Word
+3450 | Marsala Martini
+3457 | Watermelon Margarita
+3463 | La Poire des Bénédictines
+3466 | Bermondsey Minute
+3470 | Love Heart
+3491 | Pisco Kid
+35 | Alexander
+350 | Cachaça Daiquiri
+3507 | Sandy The Showgirl
+3510 | Bending Blades cocktail
+3511 | Bitter in Brazil
+3534 | Edison's Medicine cocktail
+3535 | Dirty(ish) Banana cocktail
+3536 | Roman Highball
+354 | Caipirinha
+355 | Caipirissima
+3550 | Fresh Cocktail
+3554 | Gun Metal Blue cocktail
+356 | Caipirovska
+357 | Caipiruva
+3571 | Tommi's Cocktail
+3574 | Black Jack
+3578 | Thuir Sour
+3579 | Copenhagen Cocktail
+3592 | Le Sang Et Sable
+3594 | Foghorn Cocktail
+36 | Alexander The Great
+3609 | Parle-vous Irish cocktail
+3611 | Spicy Fifty
+3620 | Brooklyn (perfect)
+3629 | Gold Rush
+3642 | French 125 (French '75' with cognac)
+3659 | The Nooner
+3663 | Ultima Palabra
+3664 | Well-fortified
+3679 | Blue Nightcap
+368 | Cape Codder
+3681 | Fat Godfather
+3690 | The Southern Alliance
+37 | Alexander's Big Brother
+3701 | Poire de Vivre
+3717 | Quitting Ordinary
+3724 | Butler's Tipple
+3728 | Red Head
+3731 | Pleasure to Tell
+3752 | Brandy Club Cocktail
+3753 | Chocolat a l'orange (Orange Chocolate)
+3763 | Terroir
+3765 | IS talking
+3795 | Winston's Crusta
+38 | Alexander's Sister
+3800 | Soir d'Ete (Summer Evening)
+3811 | Amsterdamage
+3832 | Best Friend
+3849 | Senorita Cereza Aka Ms Cherry
+386 | Cassini
+3861 | Heering is Keering
+3862 | Heering Whisper
+3864 | Poision Lips
+3889 | Rabo-de-Galo
+390 | Celtic Margarita
+3908 | Hemingway Breakfast
+3926 | The Seventh Art
+3939 | Family Pearl
+3940 | Maestro Smash
+396 | Champs-Elysees Cocktail
+3961 | Carlton Banks
+397 | Charles Daiquiri
+3983 | Cuban Saint
+4 | A.B.C. Cocktail
+4000 | Noble Daiquiri
+4013 | Spring Revival
+4015 | Santiago Moment
+4023 | Ru-Yi Knot
+4029 | Amalia (Michael Rousseau)
+4030 | Lithuanian Daiquiri
+4032 | Maui Tiki Tiki
+4033 | Hazy Shade Of Apple
+4035 | Plum Cake
+404 | Cherry Alexander
+4059 | Quintessenza
+4063 | Kula Negroni
+4065 | A Hora Incomparável
+4066 | The Spirit Of Rock
+4069 | Chepari
+407 | Cherry Daiquiri
+4072 | Arte de Volar
+4074 | Tequila Alexander
+4079 | Tequila Club
+4080 | Estrella Porno Martini
+4105 | Celery Gimlet No.2
+412 | Chihuahua Margarita
+4133 | Blueberry Caipirinha
+4134 | Strawberry & Basil Caipirinha
+4135 | Pineapple & Mint Caipirinha
+4136 | Ginger & Fig Caipirinha
+4137 | Cucumber Jalapeño Caipirinha
+4138 | Red Grape Caipirinha
+4139 | Sweet Grape Caipirinha (Caipirinha D'uva)
+4143 | Banana Caipirinha
+4144 | Kiwi Caipirinha
+416 | Chin Chin
+4161 | Let's Go Bananas
+4167 | Madame Lily
+4183 | La Blanca
+4184 | Efe
+4192 | Blackberry Agave Caipirinha
+4197 | Scandinavian Daiquiri
+4200 | French Kiwi & Apple Caipirinha
+4201 | Watermelon Caipirinha
+4202 | Melon Caipirinha
+4203 | Melon & Apple Caipirinha
+4204 | Pineapple Caipirinha
+4227 | Tropical Pineapple Daiquiri
+4237 | French 75 (Judge Jr's 1927 recipe)
+4238 | French 95 (a French '75' with bourbon)
+4243 | PLB
+4253 | French 125 (French '75' with cognac) Jones' 1977 recipe
+4254 | French 75 (Difford's recipe)
+4265 | Merry Widow Fizz
+4278 | Red Earl (by Salvatore Calabrese)
+4290 | Psycho Killer Cocktail
+4305 | Sour Grapes
+4318 | Ritorno Alle Radici (Back To The Roots)
+4331 | Cool Smoke
+4334 | Mai Suit & Tai
+4360 | Paycheck
+4367 | Fernand x Nando
+437 | Citrus Caipirovska
+4380 | Vanadis
+4383 | Napoléon Margarita
+4394 | Inside Job
+4407 | Asere
+441 | Classic Cocktail
+4411 | L'Aristocrate
+4416 | Back to Basics Cocktail
+4427 | Las Raices
+4440 | Fire & Brimstone
+4444 | Five 'n App
+4465 | Summer Breeze
+447 | Club Cocktail (Butt's recipe)
+4509 | Royal Balkan
+452 | Coconut Water
+453 | Coffee & Vanilla Daiquiri
+4566 | The JP Sazerac
+4569 | Purpurina Cocktail
+4586 | Lightness Cocktail
+4596 | Velvet Revolver
+4599 | Iron Negroni
+4602 | Tuxedo Cocktail No.2 (Savoy & Duffy's recipe)
+4608 | Mariposa
+4639 | Bloody Mary (no added sugar & low-calorie)
+4640 | Caipirinha (no added sugar & low-calorie)
+4642 | Daiquiri (no added sugar & low-calorie)
+4643 | Espresso Martini (no sugar & low-calorie)
+4644 | Fitzgerald (no added sugar & low-calorie)
+4649 | Margarita (no added sugar* & low-calorie)
+4650 | Mint Julep (no sugar & low-calorie)
+4652 | New York Sour (no added sugar & low-calorie)
+4653 | Old Fashioned (no sugar & low-calorie)
+4654 | Passion Fruit Altern'atini (no added sugar & low-cal.)
+4655 | Sazerac (no sugar & low-calorie)
+4658 | Vodka Sour (no added sugar & low-calorie)
+4659 | Whiskey Sour (no added sugar & low-calorie)
+4668 | The Bee Bodice
+4674 | Dans Le Jardin (In The Garden)
+4683 | Le Frog
+469 | Cool Coronation
+470 | Coronation
+4719 | Pursuit of Happiness
+472 | Cosmopolitan Cocktail (Difford's recipe)
+4720 | Garden Sour
+4721 | Apricot Julep
+4750 | Goodwill
+4765 | Luchadora
+4768 | El Meu Avi
+477 | Cox's Daiquiri
+4780 | Virgin Passion
+4791 | Sidecar
+4793 | Strawberry Caipirinha
+4802 | Aigua de València
+4805 | Verdita (makes 12 shots)
+4807 | Tremblement de Terre (Earthquake)
+4819 | Man O' War
+4828 | Parisienne Kiss
+4833 | Oye Mi Canto (Hear My Song)
+4858 | Ce Soir (This Evening)
+4866 | Navy Grog
+488 | Crème Brûlée Cocktail
+4885 | Saturn
+4906 | Ginger Martini
+4912 | Burnt Fuselage
+4916 | Marshmallow 'Martini'
+4932 | Derby Cocktail
+4959 | Strawberry Swizzle
+496 | Cuban Master
+4963 | Jet Pilot
+4964 | Dry Martini (4:1 ratio)
+4965 | Jean Harlow
+4976 | Dry Martini (10:1 ratio)
+498 | Cubanita
+499 | Cucumber Martini
+50 | Almond Cocktail
+5001 | One Sip Martini
+5009 | Revolver
+501 | Cucumber Sake-Tini
+5020 | Daiquiri No. 1 (6:2:1 formula)
+5031 | Strawberry Margarita (frozen)
+5039 | Hugo Spritz
+5055 | Maria Soto Robbins
+506 | Absinthe Cocktail (Jerry Thomas)
+5068 | Pan American Clipper
+5076 | Jimmie Roosevelt
+509 | Absinthe Italiano Cocktail
+510 | Absinthe Special Cocktail
+5110 | White Lion
+5113 | Tears in Heaven
+512 | Adios Amigos
+514 | Alaska (Straub's 1914 recipe)
+515 | Alfonso (Special)
+5155 | Saketini
+5187 | Watermelon Margarita No.2
+521 | Angel Face
+530 | Army & Navy
+533 | Aviation Cocktail (Savoy spec.)
+534 | Bahia
+535 | Bajan Daiquiri
+5395 | Banana Daiquiri (shaken)
+5397 | Xanthia
+543 | Bermuda Rose
+5450 | Pendennis Club Revisited
+549 | Black & Velvet
+552 | Black Jack Cocktail
+556 | Blood and Sand (Difford's recipe)
+5592 | Nuclear Banana Daiquiri
+561 | Bourbon Crusta
+567 | Caipirinha (Contemporary Serve)
+5805 | Calvados & Tonic
+5822 | Black Fashioned
+587 | Columbus Daiquiri
+593 | Corpse Reviver No.2 (Savoy Recipe)
+595 | Cosmopolitan Cocktail (1934 recipe)
+5980 | MyZo
+599 | Crimea
+600 | Crossbow
+606 | Cuban Cocktail No.3
+611 | Daiquiri (Difford's recipe)
+6128 | Mollymock
+6166 | Waterlily
+618 | Dark Daiquiri
+62 | Anis'tini
+620 | DC Martini
+622 | Dean's Gate Cocktail
+626 | Delicious Sour
+632 | Derby Daiquiri
+650 | Dirty Martini
+653 | Dixie Dew
+656 | Doctor
+666 | Double Vision
+668 | Dawa
+6706 | Chocolate Orange Espresso Martini
+676 | Dry Martini 'Preferred' (5:1 ratio)
+679 | Dulchin
+680 | Durango
+6814 | Gin Quarantini
+6815 | Vodka Quarantini
+6846 | Hugo Special
+685 | Earl Grey MarTEAni
+6853 | Platinum Blond
+6857 | Spumoni
+69 | Apple & Elderflower Collins
+692 | Easy Tiger
+695 | Eden Cocktail
+7 | Absinthe Sour
+701 | El Presidente
+710 | Elle for Leather
+712 | Emerald Martini
+713 | Emperor's Memoirs
+716 | English Martini
+719 | Epestone Daiquiri
+724 | Espresso Daiquiri
+725 | Espresso Martini
+727 | Esquire #2
+7296 | Night Cap (Sloppy Joe's 1935)
+739 | Fantasia
+7445 | Lemmy
+746 | Fine & Dandy
+748 | Finn Rouge
+75 | Apple Cart
+754 | Fizz (generic name)
+758 | Flamingo No. 2
+7608 | Scotch Adonis
+7611 | Salome
+772 | Flutter
+777 | Flying Tigre Coctel
+783 | Four W Daiquiri
+7885 | Lone Oak
+790 | French 75
+794 | French Daisy
+820 | Fu Manchu Daiquiri
+834 | Gin & Sin
+8359 | Coco Geisha
+840 | Gin Fizz
+844 | Gin Sling
+845 | Gin Sour
+847 | Ginger & Lemongrass Martini
+851 | Ginger Margarita
+854 | Ginger Nut
+864 | Godfather Cocktail
+868 | Gold Medalion
+8712 | Parisian Blonde
+881 | Golden Retriever
+888 | Grand Cosmopolitan
+889 | Cadillac Margarita (AKA Grand Margarita)
+890 | Grand Mimosa
+892 | Grand Sidecar
+900 | Grapefruit Daiquiri No.1
+905 | Grassy Finnish
+909 | Green Destiny
+912 | Green Fizz
+925 | Gypsy Cocktail
+930 | Hanky Panky Cocktail
+934 | Harvard
+943 | Hawaiian Eye
+95 | Applesinth
+950 | Heaven Scent
+9607 | Spring Feeling
+962 | Honey Bee
+97 | Appily Married
+9724 | Transcontinental
+9725 | Juschu
+973 | Honolulu
+9731 | Luigi
+976 | Hop Toad #1
+977 | Hop Toad #2
+9783 | Mr Burns
+988 | Hot Toddy (Hot Scotch & Tea)
+995 | Ice Maiden
+9983 | Igloo
+9997 | Taoiseach

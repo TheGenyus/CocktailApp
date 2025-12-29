@@ -12,10 +12,11 @@ Ingrédients:
 - *Special ingredient #1 (see above)
 - 20 ml
 - Lime juice (freshly squeezed)
-
 Recette / Préparation:
-Agitez tous les ingrédients avec de la glace et filtrez-les dans un verre rempli de glace (de préférence sur un morceau de bloc de glace).
-
+Agitez tous les ingrédients avec de la glace et filtrez-les dans un verre rempli de glace (de préférence sur un morceau de bloc de glace).
+
+
+
 <strong>*Ingrédient spécial n°1</strong> : Sirop toutes épices et citronnelle
 
 Profil (force/goût):

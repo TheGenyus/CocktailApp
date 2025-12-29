@@ -1,4 +1,4 @@
-import argparse
+﻿import argparse
 import time
 from pathlib import Path
 
@@ -16,7 +16,7 @@ USER_AGENT = (
 )
 
 
-def translate_text(text: str, translator: Translator | None) -> str:
+def translate_text(text: str, translator: "Translator | None") -> str:
     if not text or not translator:
         return text
     try:
@@ -40,16 +40,51 @@ def extract_section(soup: BeautifulSoup, needle: str) -> str:
     return ""
 
 
-def extract_ingredients(soup: BeautifulSoup) -> list[str]:
-    # Try structured list first
+def normalize_fraction_html(node) -> str:
+    """Convert HTML fractions like <sup>1</sup>&frasl;<sub>2</sub> to 1/2 and strip tags."""
+    html = str(node).replace("&frasl;", "/")
+    frag = BeautifulSoup(html, "html.parser")
+    return frag.get_text(" ", strip=True)
+
+
+def extract_ingredients(soup: BeautifulSoup) -> list[tuple[str, str]]:
+    """Return list of (quantity, name). Annotation tags are appended to quantity."""
+
+    def parse_li(li):
+        annotations = [t.get_text(" ", strip=True) for t in li.select(".tag--light")]
+        qty_node = li.find(class_=lambda c: c and any(k in c for k in ["measure", "quantity", "amount"]))
+        name_node = li.find(class_=lambda c: c and any(k in c for k in ["ingredient", "name"]))
+        if qty_node and name_node:
+            qty = normalize_fraction_html(qty_node)
+            if annotations:
+                qty = f"{qty} {' '.join(annotations)}".strip()
+            name = name_node.get_text(" ", strip=True)
+            return qty, name
+
+        raw = li.get_text(" ", strip=True)
+        if annotations:
+            raw = raw.replace(" ".join(annotations), "").strip()
+        import re
+        m = re.match(r"^([0-9\u00bc\u00bd\u00be\u2153\u2154\u215b\u215c\u215d\u215e.,/\s]+[^a-zA-Z]*)\s+(.*)$", raw)
+        if m:
+            qty = m.group(1).strip()
+            name = m.group(2).strip()
+        else:
+            qty = raw
+            name = ""
+        if annotations:
+            qty = f"{qty} {' '.join(annotations)}".strip()
+        return qty, name
+
     ul = soup.find("ul", class_=lambda c: c and "ingredients" in c)
     if ul:
-        items = [li.get_text(" ", strip=True) for li in ul.find_all("li")]
-        return [i for i in items if i]
+        return [parse_li(li) for li in ul.find_all("li")]
 
-    # Fallback: first element with class containing "ingredients"
     blk = soup.find(class_=lambda c: c and "ingredients" in c)
     if blk:
+        items = [parse_li(li) for li in blk.find_all("li")]
+        if items:
+            return items
         text = blk.get_text("\n", strip=True).splitlines()
         cleaned = []
         for line in text:
@@ -58,7 +93,7 @@ def extract_ingredients(soup: BeautifulSoup) -> list[str]:
             if line.lower().startswith("[edit"):
                 continue
             if line:
-                cleaned.append(line.strip())
+                cleaned.append((line.strip(), ""))
         return cleaned
     return []
 
@@ -75,7 +110,7 @@ def strip_noise(text: str) -> str:
     if not text:
         return ""
     footer = (
-        "Difford’s Guide remains free-to-use thanks to the support of the brands in green above . "
+        "Diffordƒ?Ts Guide remains free-to-use thanks to the support of the brands in green above . "
         "Values stated for alcohol and calorie content, and number of drinks an ingredient makes should be considered approximate."
     )
     text = text.replace(footer, "")
@@ -93,7 +128,6 @@ def strip_noise(text: str) -> str:
 
 
 def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
-    # append dummy slug to force redirect to canonical URL when it exists
     url = f"https://www.diffordsguide.com/cocktails/recipe/{recipe_id}/dummy"
     headers = {"User-Agent": USER_AGENT}
     resp = requests.get(url, headers=headers, timeout=20, allow_redirects=True)
@@ -108,7 +142,6 @@ def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
     if final_url != url:
         print(f"[{recipe_id}] redirected to {final_url}")
 
-    # Skip community recipes
     if "community recipe" in resp.text.lower():
         print(f"[{recipe_id}] skipped community recipe")
         return None
@@ -131,11 +164,9 @@ def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
                 break
     taste = strength
 
-    # Nutrition / alcohol content
     nutrition = strip_noise(extract_section(soup, "nutrition"))
     alcohol_content = strip_noise(extract_section(soup, "alcohol content"))
 
-    # Strength / taste numeric (0-10) from SVG alt texts (e.g., "Strength 9/10", "Sweet to sour 7/10")
     strength_score = None
     taste_score = None
     for h2 in soup.find_all("h2"):
@@ -157,8 +188,6 @@ def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
                 sib = sib.find_next_sibling()
             break
 
-    # Image
-    # Image: only take <img> with alt = "[Cocktail name] image"
     image_url = ""
     target_alt = f"{name.lower()} image"
     for tag in soup.find_all("img"):
@@ -177,7 +206,6 @@ def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
     def tr(text: str) -> str:
         return translate_text(text, translator) if translate else text
 
-    # Ratings (best-effort: look for data attributes or width-based stars)
     expert_rating = None
     member_rating = None
 
@@ -193,7 +221,6 @@ def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
         return None
 
     for tag in soup.find_all():
-        # Check data-rating or data-score style attributes
         for key, val in tag.attrs.items():
             if not isinstance(val, str):
                 continue
@@ -207,7 +234,6 @@ def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
                     expert_rating = num
                 elif member_rating is None:
                     member_rating = num
-        # Check inline width for stars
         if tag.has_attr("style") and ("width" in tag["style"]):
             stars = parse_width(tag["style"])
             if stars:
@@ -226,7 +252,6 @@ def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
             return None
         return full + 0.5 * half
 
-    # Override with more reliable star parsing
     expert_block = soup.select_one(".legacy-rating-with-title .rating")
     member_block = soup.select_one(".legacy-rating-with-title.switch .rating")
     ex_val = parse_star_block(expert_block)
@@ -238,8 +263,8 @@ def scrape_recipe(recipe_id: int, translate: bool) -> dict | None:
 
     data = {
         "id": recipe_id,
-        "name": name,  # keep original name, do not translate
-        "ingredients": ingredients,  # keep original ingredients, no translation
+        "name": name,
+        "ingredients": ingredients,
         "howto": tr(howto),
         "strength_taste": "",
         "strength_score": strength_score,
@@ -269,7 +294,9 @@ def save_recipe(data: dict, out_root: Path):
         "",
         "Ingrédients:",
     ]
-    lines += [f"- {line}" for line in data["ingredients"]]
+    for qty, name in data["ingredients"]:
+        lines.append(f"- {qty}")
+        lines.append(f"- {name}")
     lines += [
         "",
         "Recette / Préparation:",
@@ -295,7 +322,6 @@ def save_recipe(data: dict, out_root: Path):
     ]
     content_path.write_text("\n".join(lines), encoding="utf-8")
 
-    # download image
     if data["image_url"]:
         try:
             img_resp = requests.get(data["image_url"], headers={"User-Agent": USER_AGENT}, timeout=20)

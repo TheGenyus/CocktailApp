@@ -16,10 +16,11 @@ Ingrédients:
 - *Special ingredient #1 (see above)
 - 3 drop
 - Bob's Chocolate bitters
-
 Recette / Préparation:
-AGITER tous les ingrédients avec de la glace et filtrer finement dans un verre rempli de glace.
-
+AGITER tous les ingrédients avec de la glace et filtrer finement dans un verre rempli de glace.
+
+
+
 <strong>Ingrédient spécial n°1</strong> : Gruau
 
 Profil (force/goût):

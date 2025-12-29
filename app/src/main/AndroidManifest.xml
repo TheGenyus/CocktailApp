@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -54,10 +54,9 @@
         <activity android:name=".ui.activities.BarmanDashboardActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.CocktailApp" />
-            <activity android:name=".ui.activities.CreatePartyActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:theme="@style/Theme.CocktailApp" />
-        <activity android:name=".ui.activities.JoinPartyActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:theme="@style/Theme.CocktailApp" />
-        <activity android:name=".ui.activities.BarmanDashboardActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:theme="@style/Theme.CocktailApp" />
-        <activity android:name=".ui.activities.PartyOrdersActivity" android:configChanges="orientation|keyboardHidden|screenSize" android:theme="@style/Theme.CocktailApp" />
+        <activity android:name=".ui.activities.PartyOrdersActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.CocktailApp" />
     </application>
 
 </manifest>

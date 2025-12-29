@@ -1,4 +1,4 @@
-﻿package com.example.cocktailapp.ui.activities
+package com.example.cocktailapp.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +9,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.R
+import com.example.cocktailapp.data.CocktailRepository
 import com.example.cocktailapp.models.Cocktail
 import com.example.cocktailapp.models.Party
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class JoinPartyActivity : AppCompatActivity() {
@@ -29,6 +30,7 @@ class JoinPartyActivity : AppCompatActivity() {
     private lateinit var recycler: RecyclerView
 
     private val firestore = FirebaseFirestore.getInstance()
+    private lateinit var repo: CocktailRepository
     private var currentParty: Party? = null
     private val cocktails = mutableListOf<Cocktail>()
     private lateinit var adapter: SimpleCocktailAdapter
@@ -45,6 +47,7 @@ class JoinPartyActivity : AppCompatActivity() {
         tvStatus = findViewById(R.id.tvPartyStatus)
         recycler = findViewById(R.id.partyCocktailList)
 
+        repo = CocktailRepository(this)
         adapter = SimpleCocktailAdapter(cocktails) { cocktail ->
             val intent = Intent(this, CocktailDetailActivity::class.java)
             intent.putExtra("cocktailId", cocktail.id)
@@ -116,18 +119,12 @@ class JoinPartyActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
             return
         }
-        firestore.collection("cocktails").get()
-            .addOnSuccessListener { snapshot ->
-                snapshot.forEach { doc ->
-                    val c = doc.toObject(Cocktail::class.java)
-                    val withId = if (c.id.isBlank()) c.copy(id = doc.id) else c
-                    if (ids.contains(withId.id)) cocktails.add(withId)
-                }
-                adapter.notifyDataSetChanged()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, getString(R.string.party_error_chargement), Toast.LENGTH_SHORT).show()
-            }
+        repo.fetchCocktails(onSuccess = { list ->
+            list.forEach { c -> if (ids.contains(c.id)) cocktails.add(c) }
+            adapter.notifyDataSetChanged()
+        }, onError = {
+            Toast.makeText(this, getString(R.string.party_error_chargement), Toast.LENGTH_SHORT).show()
+        })
     }
 
     class SimpleCocktailAdapter(
@@ -144,7 +141,7 @@ class JoinPartyActivity : AppCompatActivity() {
             }
             val tv = TextView(ctx).apply {
                 textSize = 16f
-                setTextColor(ctx.getColor(R.color.text_primary))
+                setTextColor(ContextCompat.getColor(ctx, R.color.text_primary))
             }
             container.addView(tv)
             return VH(container, tv)

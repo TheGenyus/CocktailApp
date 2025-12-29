@@ -14,14 +14,19 @@ Ingrédients:
 - *Special ingredient #2 (see above)
 - 3 dash
 - *Special ingredient #3 (see above)
-
 Recette / Préparation:
-Agitez tous les ingrédients avec de la glace et filtrez finement dans un verre réfrigéré.
-
-<strong>Ingrédient spécial n°1</strong> : Sirop d'eau de coco (1:1)
-
-<strong>Ingrédient spécial n°2</strong> : Yaourt à la noix de coco
-
+Agitez tous les ingrédients avec de la glace et filtrez finement dans un verre réfrigéré.
+
+
+
+<strong>Ingrédient spécial n°1</strong> : Sirop d'eau de coco (1:1)
+
+
+
+<strong>Ingrédient spécial n°2</strong> : Yaourt à la noix de coco
+
+
+
 <strong>Ingrédient spécial n°3</strong> : Essence d'eucalyptus
 
 Profil (force/goût):

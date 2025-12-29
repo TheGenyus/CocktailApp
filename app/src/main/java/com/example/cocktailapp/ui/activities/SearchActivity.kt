@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.R
 import com.example.cocktailapp.adapters.CocktailAdapter
+import com.example.cocktailapp.data.CocktailRepository
 import com.example.cocktailapp.models.Cocktail
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,16 +32,19 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CocktailAdapter
     private lateinit var ingredientContainer: GridLayout
+    private lateinit var checkboxAlcoholFree: CheckBox
 
     private val firestore = FirebaseFirestore.getInstance()
     private var allCocktails = listOf<Cocktail>()
     private val selectedIngredients = mutableSetOf<String>()
     private var baseIngredients: List<String> = emptyList()
+    private lateinit var repo: CocktailRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_searsh)
 
+        repo = CocktailRepository(this)
         stepIngredients = findViewById(R.id.stepIngredients)
         stepSearch = findViewById(R.id.stepSearch)
         nextButton = findViewById(R.id.btnNextToSearch)
@@ -50,6 +54,7 @@ class SearchActivity : AppCompatActivity() {
         ingredientFilterInput = findViewById(R.id.ingredientFilterInput)
         recyclerView = findViewById(R.id.searchResultsRecyclerView)
         ingredientContainer = findViewById(R.id.ingredientContainer)
+        checkboxAlcoholFree = findViewById(R.id.checkboxAlcoholFree)
 
         adapter = CocktailAdapter(allCocktails)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -79,26 +84,28 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        checkboxAlcoholFree.setOnCheckedChangeListener { _, _ -> applyFilters() }
     }
 
     private fun fetchAllCocktails() {
-        firestore.collection("cocktails").get()
-            .addOnSuccessListener { snapshot ->
-                val allIngredients = mutableSetOf<String>()
-                allCocktails = snapshot.mapNotNull { doc ->
-                    val cocktail = doc.toObject(Cocktail::class.java)
-                    if (cocktail.id.isBlank()) return@mapNotNull null
-                    allIngredients.addAll(cocktail.ingredients.map { it.name })
-                    cocktail
+        repo.fetchCocktails(onSuccess = { list ->
+            val allIngredients = mutableSetOf<String>()
+            list.forEach { cocktail ->
+                cocktail.ingredients.forEach { ing ->
+                    val name = ing.name.orEmpty().trim()
+                    if (name.isNotEmpty()) {
+                        allIngredients.add(name)
+                    }
                 }
-
-                baseIngredients = listOf("Tous") + allIngredients.filter { it.isNotBlank() }.toList().sorted()
-                setupIngredientButtons(baseIngredients)
-                adapter.updateData(allCocktails)
             }
-            .addOnFailureListener {
-                Toast.makeText(this, getString(R.string.error_loading_cocktails_simple), Toast.LENGTH_SHORT).show()
-            }
+            allCocktails = list.filter { it.id.isNotBlank() }
+            baseIngredients = listOf("Tous") + allIngredients.filter { it.isNotBlank() }.toList().sorted()
+            setupIngredientButtons(baseIngredients)
+            adapter.updateData(allCocktails)
+        }, onError = {
+            Toast.makeText(this, getString(R.string.error_loading_cocktails_simple), Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun filterIngredientList() {
@@ -167,16 +174,31 @@ class SearchActivity : AppCompatActivity() {
 
     private fun applyFilters() {
         val nameQuery = searchEditText.text?.toString()?.trim().orEmpty()
+        val filterAlcoholFree = checkboxAlcoholFree.isChecked
         val filtered = allCocktails.filter { cocktail ->
             val matchesName = nameQuery.isEmpty() || cocktail.name?.contains(nameQuery, ignoreCase = true) == true
             val matchesIngredients = if (selectedIngredients.isEmpty()) {
                 true
             } else {
-                selectedIngredients.all { selected ->
-                    cocktail.ingredients.any { it.name.equals(selected, ignoreCase = true) }
+                selectedIngredients.any { selected ->
+                    val sel = selected.trim()
+                    cocktail.ingredients.any { ing ->
+                        val name = ing.name.orEmpty()
+                        if (sel.all { it.isDigit() }) {
+                            name.equals(sel, ignoreCase = true)
+                        } else {
+                            name.contains(sel, ignoreCase = true)
+                        }
+                    }
                 }
             }
-            matchesName && matchesIngredients
+            val matchesAlcoholFree = if (!filterAlcoholFree) {
+                true
+            } else {
+                val s = cocktail.strengthScore
+                s != null && s == 0.0
+            }
+            matchesName && matchesIngredients && matchesAlcoholFree
         }
         adapter.updateData(filtered)
     }

@@ -12,12 +12,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.setPadding
 import com.example.cocktailapp.R
+import com.example.cocktailapp.data.CocktailRepository
 import com.example.cocktailapp.models.Cocktail
 import com.example.cocktailapp.models.Party
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Locale
-import kotlin.random.Random
 
 class CreatePartyActivity : AppCompatActivity() {
 
@@ -30,6 +30,7 @@ class CreatePartyActivity : AppCompatActivity() {
     private lateinit var btnCreate: android.widget.Button
 
     private val firestore = FirebaseFirestore.getInstance()
+    private lateinit var repo: CocktailRepository
     private val allCocktails = mutableListOf<Cocktail>()
     private var baseIngredients: List<String> = emptyList()
     private val selectedIngredients = mutableSetOf<String>()
@@ -46,6 +47,7 @@ class CreatePartyActivity : AppCompatActivity() {
         layoutCocktails = findViewById(R.id.layoutCocktails)
         tvCocktailInfo = findViewById(R.id.tvCocktailInfo)
         btnCreate = findViewById(R.id.btnCreateParty)
+        repo = CocktailRepository(this)
 
         fetchCocktails()
 
@@ -65,22 +67,17 @@ class CreatePartyActivity : AppCompatActivity() {
     }
 
     private fun fetchCocktails() {
-        firestore.collection("cocktails").get()
-            .addOnSuccessListener { snapshot ->
-                val ingredientsSet = mutableSetOf<String>()
-                snapshot.forEach { doc ->
-                    val cocktail = doc.toObject(Cocktail::class.java)
-                    val withId = if (cocktail.id.isBlank()) cocktail.copy(id = doc.id) else cocktail
-                    allCocktails.add(withId)
-                    ingredientsSet.addAll(withId.ingredients.map { it.name })
-                }
-                baseIngredients = listOf("Tous") + ingredientsSet.filter { it.isNotBlank() }.sorted()
-                renderIngredients()
-                renderCocktails()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, getString(R.string.error_loading_cocktails_simple), Toast.LENGTH_SHORT).show()
-            }
+        repo.fetchCocktails(onSuccess = { list ->
+            allCocktails.clear()
+            allCocktails.addAll(list.filter { it.id.isNotBlank() })
+            val ingredientsSet = mutableSetOf<String>()
+            allCocktails.forEach { ingredientsSet.addAll(it.ingredients.map { ing -> ing.name }) }
+            baseIngredients = listOf("Tous") + ingredientsSet.filter { it.isNotBlank() }.sorted()
+            renderIngredients()
+            renderCocktails()
+        }, onError = {
+            Toast.makeText(this, getString(R.string.error_loading_cocktails_simple), Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun renderIngredients() {

@@ -1,41 +1,44 @@
 ID: 3111
-Nom: The Prince of Wales
-Source: https://www.diffordsguide.com/cocktails/recipe/3111/the-prince-of-wales
+Nom: Prince of Wales
+Source: https://www.diffordsguide.com/cocktails/recipe/3111/prince-of-wales
 Image: https://cdn.diffordsguide.com/cocktail/AMQgpA/default/0/512x.webp?v=1737701591
 
 Ingrédients:
-- 1 wedge
+- 1 cube
 - Pineapple (fresh)
-- 60 ml
+- 45 ml
 - Straight rye whiskey (100 proof /50% alc./vol.)
 - 5 ml
-- Luxardo Maraschino liqueur
+- Pineapple juice
 - 5 ml
 - Sugar syrup 'rich' (2 sugar to 1 water, 65.0°Brix)
-- 1 inch
-- Lemon peel
+- 2.5 ml
+- Luxardo Maraschino liqueur
 - 1 dash
 - Angostura Aromatic Bitters
-- 22.5 ml
+- 30 ml
 - Brut champagne/sparkling wine
 - chilled
-
 Recette / Préparation:
 
 
 Profil (force/goût):
-Score force (0-10): None
-Score douceur/acidité (0-10): None
-Note expert (1-5): 3.5
+Score force (0-10): 8.0
+Score douceur/acidité (0-10): 7.0
+Note expert (1-5): 4.5
 Note membres (1-5): 3.5
 
 Avis:
-
+Bilan : Délicieux !Un fruité délicat d'ananas et de marasquin, agrémenté de whisky de seigle et revigoré de pétillant.
 
 Histoire:
-Recette adaptée du chef-d'œuvre de David Wondrich de 2007, Imbibe, dans lequel David raconte l'histoire de Son Altesse Albert Edward, prince de Galles, fils de la reine Victoria et de sa maîtrise de ce riff sur le cocktail au whisky amélioré.Né le 9 novembre 1841, il ne fut couronné roi Édouard VII que le 9 août 1902 (il monta au trône le 22 janvier 1901) et, de toute évidence, profita au maximum de ses 60 années de doublure en devenant un playboy et en parcourant le monde.En 1860, il est devenu le premier membre de la famille royale britannique à visiter l'Amérique du Nord et on pense que ce cocktail est le résultat de ce voyage.
+Le cocktail Prince de Galles a été créé par Albert Edward, prince de Galles, qui deviendra plus tard le roi Édouard VII.Il existe plusieurs variantes du cocktail [voir variantes], mais elles ont toutes en commun le champagne/vin mousseux.Heureusement, le cocktail, ainsi qu'une recette, sont référencés dans une biographie anonyme de 1901, La vie privée du roi Édouard VII par un membre de la maison royale.
+On lui attribue également la composition d'un excellent « cocktail ».Il se compose d'un peu de whisky de seigle, de glace pilée, d'un petit carré d'ananas, d'une pincée d'Angostura bitter, d'un morceau de zeste de citron, de quelques gouttes de marasquin, d'un peu de champagne et de sucre en poudre au goût.Ce « short drink » est souvent demandé dans les clubs qu'il fréquente.La vie privée du roi Édouard VII par un membre de la maison royale, 1901
+Né le 9 novembre 1841, Son Altesse Albert Edward, prince de Galles, fils de la reine Victoria, n'a été couronné roi Édouard VII que le 9 août 1902 (ascensionné le 22 janvier 1901) et, de l'avis de tous, a profité au maximum de ses 60 années de doublure en devenant un playboy et en parcourant le monde.En 1860, il est devenu le premier membre de la famille royale britannique à visiter l'Amérique du Nord, et on pense que ce cocktail, une variante du cocktail au whisky amélioré, est le résultat de ce voyage.
 
 Nutrition:
 
 
 Teneur en alcool:
+1.4 standard drinks 22.69% alc./vol. (45.38° proof) 19.9 grams of pure alcohol
+Difford’s Guide remains free-to-use thanks to the support of the brands in green above . Values stated for alcohol and calorie content, and number of drinks an ingredient makes should be considered approximate.

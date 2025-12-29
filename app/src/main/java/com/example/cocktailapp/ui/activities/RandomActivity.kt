@@ -14,9 +14,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.setPadding
 import androidx.core.view.updatePadding
 import com.example.cocktailapp.R
+import com.example.cocktailapp.data.CocktailRepository
 import com.example.cocktailapp.models.Cocktail
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.random.Random
 
 class RandomActivity : AppCompatActivity() {
@@ -27,6 +27,7 @@ class RandomActivity : AppCompatActivity() {
     private val selectedIngredients = mutableSetOf<String>()
     private val allCocktails = mutableListOf<Cocktail>()
     private var baseIngredients: List<String> = emptyList()
+    private lateinit var repo: CocktailRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,7 @@ class RandomActivity : AppCompatActivity() {
         ingredientContainer = findViewById(R.id.randomIngredientContainer)
         selectRandomButton = findViewById(R.id.btnSelectRandom)
         ingredientFilterInput = findViewById(R.id.randomIngredientFilterInput)
+        repo = CocktailRepository(this)
 
         fetchCocktails()
 
@@ -59,25 +61,16 @@ class RandomActivity : AppCompatActivity() {
     }
 
     private fun fetchCocktails() {
-        FirebaseFirestore.getInstance().collection("cocktails")
-            .get()
-            .addOnSuccessListener { snapshot ->
-                val allIngredients = mutableSetOf<String>()
-
-                snapshot.documents.forEach { doc ->
-                    val cocktail = doc.toObject(Cocktail::class.java)
-                    if (cocktail != null && cocktail.id.isNotBlank()) {
-                        allIngredients.addAll(cocktail.ingredients.map { it.name })
-                        allCocktails.add(cocktail)
-                    }
-                }
-
-                baseIngredients = listOf("Tous") + allIngredients.filter { it.isNotBlank() }.toList().sorted()
-                renderIngredientCheckboxes(baseIngredients)
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, getString(R.string.error_loading_cocktails_simple), Toast.LENGTH_SHORT).show()
-            }
+        repo.fetchCocktails(onSuccess = { list ->
+            allCocktails.clear()
+            allCocktails.addAll(list.filter { it.id.isNotBlank() })
+            val allIngredients = mutableSetOf<String>()
+            allCocktails.forEach { allIngredients.addAll(it.ingredients.map { ing -> ing.name }) }
+            baseIngredients = listOf("Tous") + allIngredients.filter { it.isNotBlank() }.toList().sorted()
+            renderIngredientCheckboxes(baseIngredients)
+        }, onError = {
+            Toast.makeText(this, getString(R.string.error_loading_cocktails_simple), Toast.LENGTH_SHORT).show()
+        })
     }
 
     private fun filterIngredients() {

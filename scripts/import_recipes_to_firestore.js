@@ -131,10 +131,11 @@ function parseContent(text) {
     }
   }
 
-  // Build ingredients as (quantity, name) pairs from alternating lines
-  for (let i = 0; i < ingredientLines.length; i += 2) {
-    const quantity = ingredientLines[i] || '';
-    const name = ingredientLines[i + 1] || '';
+  // Ingredients: alternate quantity / name lines, skip empties
+  const cleaned = ingredientLines.map((l) => l.trim()).filter((l) => l.length > 0);
+  for (let i = 0; i < cleaned.length; i += 2) {
+    const quantity = cleaned[i] || '';
+    const name = cleaned[i + 1] || '';
     if (quantity || name) {
       data.ingredients.push({ quantity: quantity.trim(), name: name.trim() });
     }
@@ -166,13 +167,12 @@ async function run() {
       alcoholContent: parsed.alcoholContent,
       flavourDescription: parsed.review || '',
     };
-    // remove undefined/null-only lists
     if (!payload.ingredients || payload.ingredients.length === 0) delete payload.ingredients;
     Object.keys(payload).forEach((k) => {
       if (payload[k] === null || payload[k] === undefined || payload[k] === '') delete payload[k];
     });
 
-    await db.collection('cocktails').doc(String(docId)).set(payload, { merge: true });
+    await db.collection('cocktails').doc(String(docId)).set(payload, { merge: false });
     console.log(`Imported ${docId}: ${parsed.name}`);
   }
   console.log('Import complete');
@@ -183,3 +183,6 @@ run().catch((err) => {
   console.error(err);
   process.exit(1);
 });
+
+
+
