@@ -26,20 +26,29 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var stepSearch: LinearLayout
     private lateinit var nextButton: Button
     private lateinit var backButton: Button
+    private lateinit var showResultsButton: Button
+    private lateinit var filtersBlock: LinearLayout
 
     private lateinit var searchEditText: com.google.android.material.textfield.TextInputEditText
     private lateinit var ingredientFilterInput: TextInputEditText
     private lateinit var missingAllowedInput: TextInputEditText
+    private lateinit var inputStrengthMin: TextInputEditText
+    private lateinit var inputSweetMin: TextInputEditText
+    private lateinit var inputExpertMin: TextInputEditText
+    private lateinit var inputMemberMin: TextInputEditText
+    private lateinit var checkboxAlcoholFree: CheckBox
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CocktailAdapter
     private lateinit var ingredientContainer: GridLayout
-    private lateinit var checkboxAlcoholFree: CheckBox
 
     private val firestore = FirebaseFirestore.getInstance()
     private var allCocktails = listOf<Cocktail>()
     private val selectedIngredients = mutableSetOf<String>()
     private var baseIngredients: List<String> = emptyList()
     private lateinit var repo: CocktailRepository
+
+    private var resultsVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,13 +59,19 @@ class SearchActivity : AppCompatActivity() {
         stepSearch = findViewById(R.id.stepSearch)
         nextButton = findViewById(R.id.btnNextToSearch)
         backButton = findViewById(R.id.btnBackToIngredients)
+        showResultsButton = findViewById(R.id.btnShowResults)
+        filtersBlock = findViewById(R.id.filtersBlock)
 
         searchEditText = findViewById(R.id.searchEditText)
         ingredientFilterInput = findViewById(R.id.ingredientFilterInput)
         missingAllowedInput = findViewById(R.id.missingAllowedInput)
+        inputStrengthMin = findViewById(R.id.inputStrengthMin)
+        inputSweetMin = findViewById(R.id.inputSweetMin)
+        inputExpertMin = findViewById(R.id.inputExpertMin)
+        inputMemberMin = findViewById(R.id.inputMemberMin)
+        checkboxAlcoholFree = findViewById(R.id.checkboxAlcoholFree)
         recyclerView = findViewById(R.id.searchResultsRecyclerView)
         ingredientContainer = findViewById(R.id.ingredientContainer)
-        checkboxAlcoholFree = findViewById(R.id.checkboxAlcoholFree)
 
         adapter = CocktailAdapter(allCocktails)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -67,7 +82,11 @@ class SearchActivity : AppCompatActivity() {
         nextButton.setOnClickListener {
             stepIngredients.visibility = View.GONE
             stepSearch.visibility = View.VISIBLE
-            applyFilters()
+            resultsVisible = false
+            recyclerView.visibility = View.GONE
+            filtersBlock.visibility = View.VISIBLE
+            showResultsButton.visibility = View.VISIBLE
+            adapter.updateData(emptyList())
         }
 
         backButton.setOnClickListener {
@@ -75,25 +94,28 @@ class SearchActivity : AppCompatActivity() {
             stepIngredients.visibility = View.VISIBLE
         }
 
-        searchEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { applyFilters() }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        showResultsButton.setOnClickListener {
+            resultsVisible = true
+            filtersBlock.visibility = View.GONE
+            showResultsButton.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+            applyFilters()
+        }
 
-        ingredientFilterInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { filterIngredientList() }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        searchEditText.addTextChangedListener(simpleWatcher { if (resultsVisible) applyFilters() })
+        ingredientFilterInput.addTextChangedListener(simpleWatcher { filterIngredientList() })
+        missingAllowedInput.addTextChangedListener(simpleWatcher { if (resultsVisible) applyFilters() })
+        inputStrengthMin.addTextChangedListener(simpleWatcher { if (resultsVisible) applyFilters() })
+        inputSweetMin.addTextChangedListener(simpleWatcher { if (resultsVisible) applyFilters() })
+        inputExpertMin.addTextChangedListener(simpleWatcher { if (resultsVisible) applyFilters() })
+        inputMemberMin.addTextChangedListener(simpleWatcher { if (resultsVisible) applyFilters() })
+        checkboxAlcoholFree.setOnCheckedChangeListener { _, _ -> if (resultsVisible) applyFilters() }
+    }
 
-        missingAllowedInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { applyFilters() }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        checkboxAlcoholFree.setOnCheckedChangeListener { _, _ -> applyFilters() }
+    private fun simpleWatcher(after: () -> Unit) = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) { after() }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
     private fun fetchAllCocktails() {
@@ -173,21 +195,41 @@ class SearchActivity : AppCompatActivity() {
                         }
                     }
                 }
-                applyFilters()
+                if (resultsVisible) applyFilters()
             }
 
             ingredientContainer.addView(checkBox)
         }
     }
 
+    private fun parseDouble(editText: TextInputEditText): Double? {
+        return editText.text?.toString()?.replace(",", ".")?.toDoubleOrNull()
+    }
+
+    private fun minOk(value: Double?, min: Double?): Boolean {
+        if (min == null) return true
+        if (value == null) return true // info manquante : on laisse passer
+        return value >= min
+    }
+
     private fun applyFilters() {
+        if (!resultsVisible) {
+            adapter.updateData(emptyList())
+            return
+        }
+
         val nameQuery = searchEditText.text?.toString()?.trim().orEmpty()
-        val filterAlcoholFree = checkboxAlcoholFree.isChecked
         val allowedMissing = missingAllowedInput.text?.toString()?.toIntOrNull()?.coerceAtLeast(0) ?: 0
         val selectedSet = selectedIngredients
             .filterNot { it.equals("Tous", ignoreCase = true) }
             .map { it.lowercase() }
             .toSet()
+
+        val minStrength = parseDouble(inputStrengthMin)
+        val minSweet = parseDouble(inputSweetMin)
+        val minExpert = parseDouble(inputExpertMin)
+        val minMember = parseDouble(inputMemberMin)
+        val alcoholFreeOnly = checkboxAlcoholFree.isChecked
 
         val filtered = allCocktails.filter { cocktail ->
             val matchesName = nameQuery.isEmpty() || cocktail.name?.contains(nameQuery, ignoreCase = true) == true
@@ -208,13 +250,18 @@ class SearchActivity : AppCompatActivity() {
                 usesAtLeastOneSelected && missingCount <= allowedMissing
             }
 
-            val matchesAlcoholFree = if (!filterAlcoholFree) {
+            val strengthOk = minOk(cocktail.strengthScore, minStrength)
+            val sweetOk = minOk(cocktail.tasteScore, minSweet)
+            val expertOk = minOk(cocktail.expertRating?.toDouble(), minExpert)
+            val memberOk = minOk(cocktail.memberRating?.toDouble(), minMember)
+            val alcoholOk = if (!alcoholFreeOnly) {
                 true
             } else {
                 val s = cocktail.strengthScore
                 s != null && s == 0.0
             }
-            matchesName && matchesIngredients && matchesAlcoholFree
+
+            matchesName && matchesIngredients && strengthOk && sweetOk && expertOk && memberOk && alcoholOk
         }
         adapter.updateData(filtered)
     }

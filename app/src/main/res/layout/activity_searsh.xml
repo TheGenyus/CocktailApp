@@ -24,6 +24,7 @@
         android:padding="16dp"
         android:gravity="top">
 
+        <!-- Step 1 : ingredients -->
         <LinearLayout
             android:id="@+id/stepIngredients"
             android:layout_width="match_parent"
@@ -51,7 +52,7 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ScrollView
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -65,7 +66,7 @@
                     android:columnCount="1"
                     android:orientation="horizontal"
                     android:padding="4dp" />
-            </ScrollView>
+            </androidx.core.widget.NestedScrollView>
 
             <Button
                 android:id="@+id/btnNextToSearch"
@@ -76,6 +77,7 @@
                 android:layout_marginBottom="24dp" />
         </LinearLayout>
 
+        <!-- Step 2 : filters then show results -->
         <LinearLayout
             android:id="@+id/stepSearch"
             android:layout_width="match_parent"
@@ -110,20 +112,95 @@
                     android:text="0" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <CheckBox
-                android:id="@+id/checkboxAlcoholFree"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/filtersBlock"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sans alcool uniquement (force = 0)"
-                android:textColor="@color/text_primary"
-                android:layout_marginTop="8dp" />
+                android:orientation="vertical"
+                android:layout_marginTop="12dp">
+
+                <CheckBox
+                    android:id="@+id/checkboxAlcoholFree"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sans alcool (force = 0)"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Filtres minimum (laisser vide pour ignorer)"
+                    android:textColor="@color/text_secondary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Force min (0-10)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputStrengthMin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Douceur min (0-10)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputSweetMin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Note expert min (0-5)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputExpertMin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Note membres min (0-5)">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputMemberMin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnShowResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Voir les recettes"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/searchResultsRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:layout_marginTop="16dp" />
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnBackToIngredients"
