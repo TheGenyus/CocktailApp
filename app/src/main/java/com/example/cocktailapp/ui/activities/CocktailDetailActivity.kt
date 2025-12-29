@@ -59,15 +59,14 @@ class CocktailDetailActivity : AppCompatActivity() {
         val name = cocktail.name ?: getString(R.string.label_nom_inconnu)
         binding.tvName.text = name
 
-        // Image (fallback on "image" field used by JSON export, center crop to avoid huge size)
+        // Image (fallback on "image" field used by JSON export, fit center to show full image at smaller height)
         val imageUrl = cocktail.imageUrl?.takeIf { it.isNotBlank() } ?: imageFallback
         if (!imageUrl.isNullOrBlank()) {
             binding.ivImage.visibility = View.VISIBLE
             Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_launcher_foreground)
-                .centerCrop()
-                .override(binding.ivImage.width.takeIf { it > 0 } ?: 512, 320)
+                .fitCenter()
                 .into(binding.ivImage)
         } else {
             binding.ivImage.visibility = View.GONE
