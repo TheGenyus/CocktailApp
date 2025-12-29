@@ -62,7 +62,7 @@
                     android:id="@+id/ingredientContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="2"
+                    android:columnCount="1"
                     android:orientation="horizontal"
                     android:padding="4dp" />
             </ScrollView>
@@ -96,6 +96,20 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="Ingr. hors liste autorises (0 par defaut)">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/missingAllowedInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="0" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <CheckBox
                 android:id="@+id/checkboxAlcoholFree"
                 android:layout_width="wrap_content"
@@ -121,4 +135,3 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-

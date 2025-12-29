@@ -1,4 +1,4 @@
-﻿package com.example.cocktailapp.ui.activities
+package com.example.cocktailapp.ui.activities
 
 import android.os.Bundle
 import android.text.Editable
@@ -29,6 +29,7 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var searchEditText: com.google.android.material.textfield.TextInputEditText
     private lateinit var ingredientFilterInput: TextInputEditText
+    private lateinit var missingAllowedInput: TextInputEditText
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CocktailAdapter
     private lateinit var ingredientContainer: GridLayout
@@ -52,6 +53,7 @@ class SearchActivity : AppCompatActivity() {
 
         searchEditText = findViewById(R.id.searchEditText)
         ingredientFilterInput = findViewById(R.id.ingredientFilterInput)
+        missingAllowedInput = findViewById(R.id.missingAllowedInput)
         recyclerView = findViewById(R.id.searchResultsRecyclerView)
         ingredientContainer = findViewById(R.id.ingredientContainer)
         checkboxAlcoholFree = findViewById(R.id.checkboxAlcoholFree)
@@ -81,6 +83,12 @@ class SearchActivity : AppCompatActivity() {
 
         ingredientFilterInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { filterIngredientList() }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        missingAllowedInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) { applyFilters() }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
@@ -121,7 +129,7 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setupIngredientButtons(ingredients: List<String>) {
         ingredientContainer.removeAllViews()
-        ingredientContainer.columnCount = 2
+        ingredientContainer.columnCount = 1
 
         var allCheckBox: CheckBox? = null
 
@@ -175,23 +183,31 @@ class SearchActivity : AppCompatActivity() {
     private fun applyFilters() {
         val nameQuery = searchEditText.text?.toString()?.trim().orEmpty()
         val filterAlcoholFree = checkboxAlcoholFree.isChecked
+        val allowedMissing = missingAllowedInput.text?.toString()?.toIntOrNull()?.coerceAtLeast(0) ?: 0
+        val selectedSet = selectedIngredients
+            .filterNot { it.equals("Tous", ignoreCase = true) }
+            .map { it.lowercase() }
+            .toSet()
+
         val filtered = allCocktails.filter { cocktail ->
             val matchesName = nameQuery.isEmpty() || cocktail.name?.contains(nameQuery, ignoreCase = true) == true
-            val matchesIngredients = if (selectedIngredients.isEmpty()) {
+
+            val cocktailNames = cocktail.ingredients
+                .map { it.name.orEmpty().trim().lowercase() }
+                .filter { it.isNotEmpty() }
+
+            val matchesIngredients = if (selectedSet.isEmpty()) {
                 true
             } else {
-                selectedIngredients.any { selected ->
-                    val sel = selected.trim()
-                    cocktail.ingredients.any { ing ->
-                        val name = ing.name.orEmpty()
-                        if (sel.all { it.isDigit() }) {
-                            name.equals(sel, ignoreCase = true)
-                        } else {
-                            name.contains(sel, ignoreCase = true)
-                        }
-                    }
+                val usesAtLeastOneSelected = cocktailNames.any { name ->
+                    selectedSet.any { sel -> name.contains(sel, ignoreCase = true) }
                 }
+                val missingCount = cocktailNames.count { name ->
+                    selectedSet.none { sel -> name.contains(sel, ignoreCase = true) }
+                }
+                usesAtLeastOneSelected && missingCount <= allowedMissing
             }
+
             val matchesAlcoholFree = if (!filterAlcoholFree) {
                 true
             } else {
