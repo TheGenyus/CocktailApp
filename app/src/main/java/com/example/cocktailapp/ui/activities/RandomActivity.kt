@@ -1,12 +1,14 @@
-﻿package com.example.cocktailapp.ui.activities
+package com.example.cocktailapp.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.GridLayout
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,33 +24,62 @@ import kotlin.random.Random
 class RandomActivity : AppCompatActivity() {
 
     private lateinit var ingredientContainer: GridLayout
-    private lateinit var selectRandomButton: Button
     private lateinit var ingredientFilterInput: TextInputEditText
+    private lateinit var selectRandomButton: Button
+    private lateinit var backButton: Button
+    private lateinit var filtersBlock: LinearLayout
+    private lateinit var checkboxAlcoholFree: CheckBox
+    private lateinit var inputStrengthMin: TextInputEditText
+    private lateinit var inputSweetMin: TextInputEditText
+    private lateinit var inputExpertMin: TextInputEditText
+    private lateinit var inputMemberMin: TextInputEditText
+
     private val selectedIngredients = mutableSetOf<String>()
     private val allCocktails = mutableListOf<Cocktail>()
     private var baseIngredients: List<String> = emptyList()
     private lateinit var repo: CocktailRepository
+
+    private lateinit var stepIngredients: LinearLayout
+    private lateinit var stepFilters: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_random_cocktail_by_ingredient)
 
         ingredientContainer = findViewById(R.id.randomIngredientContainer)
-        selectRandomButton = findViewById(R.id.btnSelectRandom)
         ingredientFilterInput = findViewById(R.id.randomIngredientFilterInput)
+        selectRandomButton = findViewById(R.id.btnGenerateRandom)
+        backButton = findViewById(R.id.btnBackToIngredientsRandom)
+        filtersBlock = findViewById(R.id.filtersBlock)
+        checkboxAlcoholFree = findViewById(R.id.checkboxRandomAlcoholFree)
+        inputStrengthMin = findViewById(R.id.inputRandomStrengthMin)
+        inputSweetMin = findViewById(R.id.inputRandomSweetMin)
+        inputExpertMin = findViewById(R.id.inputRandomExpertMin)
+        inputMemberMin = findViewById(R.id.inputRandomMemberMin)
+        stepIngredients = findViewById(R.id.stepIngredients)
+        stepFilters = findViewById(R.id.stepFilters)
+        val nextButton = findViewById<Button>(R.id.btnNextToFilters)
         repo = CocktailRepository(this)
 
         fetchCocktails()
 
+        nextButton.setOnClickListener {
+            stepIngredients.visibility = View.GONE
+            stepFilters.visibility = View.VISIBLE
+            filtersBlock.visibility = View.VISIBLE
+        }
+
+        backButton.setOnClickListener {
+            stepFilters.visibility = View.GONE
+            stepIngredients.visibility = View.VISIBLE
+        }
+
         selectRandomButton.setOnClickListener {
+            filtersBlock.visibility = View.GONE
             selectRandomCocktail()
         }
 
-        ingredientFilterInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { filterIngredients() }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+        ingredientFilterInput.addTextChangedListener(simpleWatcher { filterIngredients() })
 
         val contentLayout = findViewById<android.view.View>(R.id.contentLayout)
         val basePaddingBottom = contentLayout.paddingBottom
@@ -60,12 +91,23 @@ class RandomActivity : AppCompatActivity() {
         }
     }
 
+    private fun simpleWatcher(after: () -> Unit) = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) { after() }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    }
+
     private fun fetchCocktails() {
         repo.fetchCocktails(onSuccess = { list ->
             allCocktails.clear()
             allCocktails.addAll(list.filter { it.id.isNotBlank() })
             val allIngredients = mutableSetOf<String>()
-            allCocktails.forEach { allIngredients.addAll(it.ingredients.map { ing -> ing.name }) }
+            allCocktails.forEach { cocktail ->
+                cocktail.ingredients.forEach { ing ->
+                    val name = ing.name.orEmpty()
+                    if (name.isNotBlank()) allIngredients.add(name)
+                }
+            }
             baseIngredients = listOf("Tous") + allIngredients.filter { it.isNotBlank() }.toList().sorted()
             renderIngredientCheckboxes(baseIngredients)
         }, onError = {
@@ -85,7 +127,7 @@ class RandomActivity : AppCompatActivity() {
     }
 
     private fun renderIngredientCheckboxes(ingredients: List<String>) {
-        ingredientContainer.columnCount = 2
+        ingredientContainer.columnCount = 1
         ingredientContainer.removeAllViews()
 
         var allCheckBox: CheckBox? = null
@@ -136,15 +178,51 @@ class RandomActivity : AppCompatActivity() {
         }
     }
 
+    private fun parseDouble(editText: TextInputEditText): Double? =
+        editText.text?.toString()?.replace(",", ".")?.toDoubleOrNull()
+
+    private fun minOk(value: Double?, min: Double?): Boolean {
+        if (min == null) return true
+        if (value == null) return true
+        return value >= min
+    }
+
     private fun selectRandomCocktail() {
-        val matchingCocktails =
-            if (selectedIngredients.isEmpty()) {
-                allCocktails
+        val selectedSet = selectedIngredients
+            .filterNot { it.equals("Tous", ignoreCase = true) }
+            .map { it.lowercase() }
+            .toSet()
+
+        val minStrength = parseDouble(inputStrengthMin)
+        val minSweet = parseDouble(inputSweetMin)
+        val minExpert = parseDouble(inputExpertMin)
+        val minMember = parseDouble(inputMemberMin)
+        val alcoholFreeOnly = checkboxAlcoholFree.isChecked
+
+        val matchingCocktails = allCocktails.filter { cocktail ->
+            val cocktailNames = cocktail.ingredients
+                .map { it.name.orEmpty().trim().lowercase() }
+                .filter { it.isNotEmpty() }
+
+            val matchesIngredients = if (selectedSet.isEmpty()) {
+                true
             } else {
-                allCocktails.filter { cocktail ->
-                    cocktail.ingredients.any { selectedIngredients.contains(it.name) }
-                }
+                cocktailNames.any { name -> selectedSet.any { sel -> name.contains(sel, ignoreCase = true) } }
             }
+
+            val strengthOk = minOk(cocktail.strengthScore, minStrength)
+            val sweetOk = minOk(cocktail.tasteScore, minSweet)
+            val expertOk = minOk(cocktail.expertRating?.toDouble(), minExpert)
+            val memberOk = minOk(cocktail.memberRating?.toDouble(), minMember)
+            val alcoholOk = if (!alcoholFreeOnly) {
+                true
+            } else {
+                val s = cocktail.strengthScore
+                s != null && s == 0.0
+            }
+
+            matchesIngredients && strengthOk && sweetOk && expertOk && memberOk && alcoholOk
+        }
 
         if (matchingCocktails.isEmpty()) {
             Toast.makeText(this, getString(R.string.error_aucun_cocktail), Toast.LENGTH_SHORT).show()

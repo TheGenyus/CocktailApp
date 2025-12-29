@@ -1,68 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:orientation="vertical"
+    android:background="@color/bg_primary"
+    android:paddingBottom="24dp">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/bg_surface"
         android:title="@string/title_toolbar_random"
-        android:titleTextColor="@color/text_primary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:titleTextColor="@color/text_primary" />
 
     <LinearLayout
         android:id="@+id/contentLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        android:paddingBottom="32dp"
-        android:fitsSystemWindows="true"
-        android:background="@color/bg_primary"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:background="@color/bg_primary">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Filtrer les ingredients">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/randomIngredientFilterInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ScrollView
+        <!-- Step 1 : ingredients -->
+        <LinearLayout
+            android:id="@+id/stepIngredients"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <GridLayout
-                android:id="@+id/randomIngredientContainer"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:padding="8dp" />
-        </ScrollView>
+                android:text="Choisissez vos ingredients (optionnel)"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
-        <Button
-            android:id="@+id/btnSelectRandom"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Filtrer les ingredients">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/randomIngredientFilterInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true"
+                android:scrollbars="vertical">
+
+                <GridLayout
+                    android:id="@+id/randomIngredientContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="1"
+                    android:orientation="horizontal"
+                    android:padding="8dp" />
+            </androidx.core.widget.NestedScrollView>
+
+            <Button
+                android:id="@+id/btnNextToFilters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Suivant"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="24dp" />
+        </LinearLayout>
+
+        <!-- Step 2 : filters & generate -->
+        <LinearLayout
+            android:id="@+id/stepFilters"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/action_trouver_hasard"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"/>
-    </LinearLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                android:scrollbars="vertical">
+
+                <LinearLayout
+                    android:id="@+id/filtersBlock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/checkboxRandomAlcoholFree"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sans alcool (force = 0)"
+                        android:textColor="@color/text_primary"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Filtres minimum (laisser vide pour ignorer)"
+                        android:textColor="@color/text_secondary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Force min (0-10)">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputRandomStrengthMin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Douceur min (0-10)">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputRandomSweetMin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Note expert min (0-5)">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputRandomExpertMin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Note membres min (0-5)">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputRandomMemberMin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnGenerateRandom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Generer un cocktail"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp" />
+                </LinearLayout>
+            </ScrollView>
+
+            <Button
+                android:id="@+id/btnBackToIngredientsRandom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Retour aux ingredients"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="24dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
