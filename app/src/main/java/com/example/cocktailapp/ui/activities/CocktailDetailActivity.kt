@@ -1,5 +1,6 @@
-package com.example.cocktailapp.ui.activities
+﻿package com.example.cocktailapp.ui.activities
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.cocktailapp.R
 import com.example.cocktailapp.databinding.ActivityCocktailDetailBinding
 import com.example.cocktailapp.models.Cocktail
+import com.example.cocktailapp.models.Ingredient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,13 +20,14 @@ class CocktailDetailActivity : AppCompatActivity() {
     private val firestore = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
     private var partyCode: String? = null
+    private val prefs: SharedPreferences by lazy { getSharedPreferences("party_prefs", MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCocktailDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val cocktailId = intent.getStringExtra("cocktailId")
+        val cocktailId = intent.getStringExtra("cocktailId") ?: intent.getStringExtra("cocktail_id")
         partyCode = intent.getStringExtra("partyCode")
         if (cocktailId.isNullOrBlank()) {
             Toast.makeText(this, getString(R.string.error_cocktail_inconnu), Toast.LENGTH_SHORT).show()
@@ -35,12 +38,55 @@ class CocktailDetailActivity : AppCompatActivity() {
         loadCocktail(cocktailId)
     }
 
+    private fun safeCocktailFromSnapshot(doc: com.google.firebase.firestore.DocumentSnapshot): Cocktail? {
+        val data = doc.data ?: return null
+        fun str(key: String): String? = (data[key] as? String)?.takeIf { it.isNotBlank() } ?: data[key]?.toString()
+        fun num(key: String): Double? = when (val v = data[key]) {
+            is Number -> v.toDouble()
+            is String -> v.toDoubleOrNull()
+            else -> null
+        }
+        val ingList = mutableListOf<Ingredient>()
+        val rawIngs = data["ingredients"] as? List<*>
+        rawIngs?.forEach { item ->
+            if (item is Map<*, *>) {
+                val q = item["quantity"]?.toString()?.trim().orEmpty()
+                val n = item["name"]?.toString()?.trim().orEmpty()
+                ingList.add(Ingredient(name = n, quantity = q))
+            }
+        }
+        return Cocktail(
+            id = doc.id,
+            name = str("name"),
+            flavourDescription = str("flavourDescription"),
+            history = str("history"),
+            expertRating = num("expertRating"),
+            memberRating = num("memberRating"),
+            imageUrl = str("imageUrl") ?: str("image"),
+            recipe = str("recipe") ?: str("instructions"),
+            strengthScore = num("strengthScore") ?: (data["profile"] as? Map<*, *>)?.let { numFromMap(it, "strength") },
+            tasteScore = num("tasteScore") ?: (data["profile"] as? Map<*, *>)?.let { numFromMap(it, "sweetness") },
+            review = str("review"),
+            nutrition = str("nutrition"),
+            alcoholContent = str("alcoholContent"),
+            ingredients = ingList
+        )
+    }
+
+    private fun numFromMap(map: Map<*, *>, key: String): Double? {
+        return when (val v = map[key]) {
+            is Number -> v.toDouble()
+            is String -> v.toDoubleOrNull()
+            else -> null
+        }
+    }
+
     private fun loadCocktail(cocktailId: String) {
         firestore.collection("cocktails")
             .document(cocktailId)
             .get()
             .addOnSuccessListener { document ->
-                val cocktail = document.toObject(Cocktail::class.java)
+                val cocktail = safeCocktailFromSnapshot(document)
                 if (cocktail == null) {
                     Toast.makeText(this, getString(R.string.error_cocktail_inconnu), Toast.LENGTH_SHORT).show()
                     finish()
@@ -59,7 +105,6 @@ class CocktailDetailActivity : AppCompatActivity() {
         val name = cocktail.name ?: getString(R.string.label_nom_inconnu)
         binding.tvName.text = name
 
-        // Image (fallback on "image" field used by JSON export, fit center to show full image at smaller height)
         val imageUrl = cocktail.imageUrl?.takeIf { it.isNotBlank() } ?: imageFallback
         if (!imageUrl.isNullOrBlank()) {
             binding.ivImage.visibility = View.VISIBLE
@@ -72,23 +117,27 @@ class CocktailDetailActivity : AppCompatActivity() {
             binding.ivImage.visibility = View.GONE
         }
 
-        // Recipe
         setSection(binding.tvTitleRecipe, binding.tvRecipe, cocktail.recipe)
 
-        // Ingredients
         if (cocktail.ingredients.isNotEmpty()) {
             val ingText = cocktail.ingredients.joinToString(separator = "\n") {
-                "- ${it.quantity} ${it.name}"
+                val q = it.quantity.takeIf { q -> !q.isNullOrBlank() } ?: ""
+                val n = it.name.takeIf { n -> !n.isNullOrBlank() } ?: ""
+                listOf(q, n).filter { part -> part.isNotBlank() }.joinToString(" ").trim()
             }
-            binding.tvTitleIngredients.visibility = View.VISIBLE
-            binding.tvIngredients.visibility = View.VISIBLE
-            binding.tvIngredients.text = ingText
+            if (ingText.isNotBlank()) {
+                binding.tvTitleIngredients.visibility = View.VISIBLE
+                binding.tvIngredients.visibility = View.VISIBLE
+                binding.tvIngredients.text = ingText
+            } else {
+                binding.tvTitleIngredients.visibility = View.GONE
+                binding.tvIngredients.visibility = View.GONE
+            }
         } else {
             binding.tvTitleIngredients.visibility = View.GONE
             binding.tvIngredients.visibility = View.GONE
         }
 
-        // Strength / taste scores
         val strengthScore = cocktail.strengthScore
         val tasteScore = cocktail.tasteScore
         val strengthLines = mutableListOf<String>()
@@ -103,7 +152,6 @@ class CocktailDetailActivity : AppCompatActivity() {
             binding.tvStrengthScores.visibility = View.GONE
         }
 
-        // Ratings
         val ratingLines = mutableListOf<String>()
         cocktail.expertRating?.let { ratingLines.add("Note expert: ${it}/5") }
         cocktail.memberRating?.let { ratingLines.add("Note membres: ${it}/5") }
@@ -116,28 +164,29 @@ class CocktailDetailActivity : AppCompatActivity() {
             binding.tvRatings.visibility = View.GONE
         }
 
-        // History, Review, Nutrition, Alcohol, Description
         setSection(binding.tvTitleHistory, binding.tvHistory, cocktail.history)
         setSection(binding.tvTitleReview, binding.tvReview, cocktail.review)
         setSection(binding.tvTitleNutrition, binding.tvNutrition, cocktail.nutrition)
         setSection(binding.tvTitleAlcohol, binding.tvAlcohol, cocktail.alcoholContent)
         setSection(binding.tvTitleGout, binding.tvGout, cocktail.flavourDescription)
 
-        // Favorites buttons
-        binding.btnFavorite.visibility = View.VISIBLE
-        binding.btnFavorite.setOnClickListener {
-            val currentUserId = auth.currentUser?.uid ?: return@setOnClickListener
+        val currentUserId = auth.currentUser?.uid
+        if (currentUserId == null) {
+            binding.btnFavorite.visibility = View.GONE
+        } else {
+            binding.btnFavorite.visibility = View.VISIBLE
             firestore.collection("users").document(currentUserId)
-                .update("favorites", FieldValue.arrayUnion(cocktailId))
-                .addOnSuccessListener {
-                    Toast.makeText(this, getString(R.string.info_favori_ajoute, name), Toast.LENGTH_SHORT).show()
+                .get()
+                .addOnSuccessListener { doc ->
+                    val favorites = doc.get("favorites") as? List<*> ?: emptyList<Any>()
+                    val isFav = favorites.any { it?.toString() == cocktailId }
+                    updateFavoriteButton(cocktailId, name, currentUserId, isFav)
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, getString(R.string.error_favori, e.message ?: ""), Toast.LENGTH_SHORT).show()
+                .addOnFailureListener {
+                    updateFavoriteButton(cocktailId, name, currentUserId, false)
                 }
         }
 
-        // User rating
         val userId = auth.currentUser?.uid
         if (userId == null) {
             binding.userRatingBar.visibility = View.GONE
@@ -171,7 +220,6 @@ class CocktailDetailActivity : AppCompatActivity() {
             }
         }
 
-        // Party order (si on vient d'une soiree)
         val party = partyCode
         if (party.isNullOrBlank()) {
             binding.btnPartyOrder.visibility = View.GONE
@@ -183,8 +231,10 @@ class CocktailDetailActivity : AppCompatActivity() {
                     Toast.makeText(this, getString(R.string.error_login_failed), Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
+                val displayName = prefs.getString("display_name", "")?.trim().orEmpty()
                 val data = hashMapOf(
                     "userId" to currentUser,
+                    "userName" to displayName,
                     "cocktailId" to cocktailId,
                     "cocktailName" to name,
                     "status" to "pending",
@@ -220,6 +270,24 @@ class CocktailDetailActivity : AppCompatActivity() {
             } else {
                 contentView.visibility = View.GONE
             }
+        }
+    }
+    private fun updateFavoriteButton(cocktailId: String, name: String, userId: String, isFav: Boolean) {
+        if (isFinishing || isDestroyed) return
+        binding.btnFavorite.text = if (isFav) getString(R.string.action_remove_favorite) else getString(R.string.action_add_favorite)
+        binding.btnFavorite.setOnClickListener {
+            val op = if (isFav) FieldValue.arrayRemove(cocktailId) else FieldValue.arrayUnion(cocktailId)
+            firestore.collection("users").document(userId)
+                .update("favorites", op)
+                .addOnSuccessListener {
+                    val newState = !isFav
+                    updateFavoriteButton(cocktailId, name, userId, newState)
+                    val msg = if (newState) getString(R.string.info_favori_ajoute, name) else getString(R.string.info_favori_retrait, name)
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, getString(R.string.error_favori, e.message ?: ""), Toast.LENGTH_SHORT).show()
+                }
         }
     }
 }

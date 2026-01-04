@@ -1,5 +1,6 @@
 ﻿package com.example.cocktailapp.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -83,12 +84,11 @@ class BarmanDashboardActivity : AppCompatActivity() {
     private fun updateStatus(order: PartyOrder, newStatus: String) {
         val docRef = firestore.collection("parties").document(partyCode)
             .collection("orders").document(order.id)
-        if (newStatus == "servi") {
-            // supprime pour ne plus le revoir
-            docRef.delete()
-        } else {
-            docRef.update("status", newStatus)
-        }
+        // Mettre a jour seulement (delete refuse par les regles), la liste cache "servi"
+        docRef.update("status", newStatus)
+            .addOnFailureListener {
+                Toast.makeText(this, getString(R.string.party_error_creation), Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun promptAddCocktail() {
@@ -144,7 +144,7 @@ class BarmanDashboardActivity : AppCompatActivity() {
         private val items: List<PartyOrder>,
         private val onUpdate: (PartyOrder, String) -> Unit
     ) : RecyclerView.Adapter<OrdersAdapter.VH>() {
-        class VH(view: View, val title: TextView, val subtitle: TextView, val btnPrep: Button, val btnServi: Button) : RecyclerView.ViewHolder(view)
+        class VH(view: View, val title: TextView, val subtitle: TextView, val btnPrep: Button, val btnServi: Button, val btnView: Button) : RecyclerView.ViewHolder(view)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
             val ctx = parent.context
@@ -166,8 +166,10 @@ class BarmanDashboardActivity : AppCompatActivity() {
             val buttons = LinearLayout(ctx).apply { orientation = LinearLayout.HORIZONTAL }
             val btnPrep = Button(ctx).apply { text = ctx.getString(R.string.party_statut_btn_preparation) }
             val btnServi = Button(ctx).apply { text = ctx.getString(R.string.party_statut_btn_servi) }
+            val btnView = Button(ctx).apply { text = ctx.getString(R.string.label_voir_recette) }
             buttons.addView(btnPrep, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
             buttons.addView(btnServi, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+            buttons.addView(btnView, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
             root.addView(title)
             root.addView(subtitle)
             root.addView(buttons)
@@ -175,17 +177,41 @@ class BarmanDashboardActivity : AppCompatActivity() {
                 setMargins(0, 8, 0, 8)
             }
             root.layoutParams = params
-            return VH(root, title, subtitle, btnPrep, btnServi)
+            return VH(root, title, subtitle, btnPrep, btnServi, btnView)
         }
 
         override fun onBindViewHolder(holder: VH, position: Int) {
             val order = items[position]
             holder.title.text = order.cocktailName.ifBlank { "Cocktail" }
-            holder.subtitle.text = "Statut : ${order.status}"
+            holder.subtitle.text = if (order.userName.isNotBlank()) "Par ${order.userName} - Statut : ${order.status}" else "Statut : ${order.status}"
             holder.btnPrep.setOnClickListener { onUpdate(order, "preparation") }
-            holder.btnServi.setOnClickListener { onUpdate(order, "servi") }
+                        holder.btnServi.setOnClickListener { onUpdate(order, "servi") }
+            holder.btnView.setOnClickListener {
+                if (order.cocktailId.isNotBlank()) {
+                    val intent = Intent(holder.itemView.context, CocktailDetailActivity::class.java)
+                    intent.putExtra("cocktail_id", order.cocktailId)
+                    holder.itemView.context.startActivity(intent)
+                } else {
+                    Toast.makeText(holder.itemView.context, R.string.error_cocktail_inconnu, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         override fun getItemCount(): Int = items.size
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

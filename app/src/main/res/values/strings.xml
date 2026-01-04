@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CocktailApp</string>
     <string name="error_login_failed">Connexion echouee.</string>
@@ -46,6 +46,7 @@
     <string name="title_cocktail_list">Liste des cocktails</string>
     <string name="title_tutoriels">Liste des tutoriels</string>
     <string name="title_tutoriel_detail">Nom du tutoriel</string>
+    <string name="label_voir_recette">Voir la recette</string>
 
     <!-- Soirees -->
     <string name="menu_creer_soiree">Creer une soiree</string>
@@ -75,7 +76,9 @@
     <string name="party_error_code">Code invalide ou soiree inactive.</string>
     <string name="party_error_creation">Creation impossible.</string>
     <string name="party_error_commande">Commande impossible.</string>
+    <string name="party_btn_barman">Ouvrir le tableau barman</string>
+    <string name="party_prompt_name">Entrez votre nom pour la soiree</string>
+    <string name="party_error_name">Le nom est obligatoire.</string>
+    <string name="cocktails_json_url">https://cocktail-caa91.web.app/cocktails.json</string>
     <string name="party_error_chargement">Chargement impossible.</string>
-    <string name="cocktails_json_url">https://cocktail-caa91.web.app/cocktails.json</string></resources>
-
-
+</resources>

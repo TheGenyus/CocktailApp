@@ -1,4 +1,4 @@
-package com.example.cocktailapp.ui.activities
+﻿package com.example.cocktailapp.ui.activities
 
 import android.os.Bundle
 import android.widget.Toast
@@ -56,12 +56,20 @@ class FavoritesActivity : AppCompatActivity() {
 
     private fun fetchFavoriteCocktails(favoriteNames: List<String>) {
         val db = FirebaseFirestore.getInstance()
-        val fetched = mutableListOf<Cocktail>()
-
+        val collected = mutableListOf<Cocktail>()
         val chunks = favoriteNames.chunked(10)
         if (chunks.isEmpty()) {
             adapter.updateData(emptyList())
             return
+        }
+        var remaining = chunks.size
+
+        fun maybePublish() {
+            remaining--
+            if (remaining <= 0) {
+                // on publie une seule fois la liste complète
+                adapter.updateData(collected)
+            }
         }
 
         chunks.forEach { chunk ->
@@ -69,12 +77,48 @@ class FavoritesActivity : AppCompatActivity() {
                 .whereIn(FieldPath.documentId(), chunk)
                 .get()
                 .addOnSuccessListener { documents ->
-                    documents.mapNotNullTo(fetched) { it.toObject(Cocktail::class.java) }
-                    adapter.updateData(fetched)
+                    documents.forEach { doc ->
+                        val data = doc.data ?: return@forEach
+                        fun str(key: String): String? = (data[key] as? String)?.takeIf { it.isNotBlank() } ?: data[key]?.toString()
+                        fun num(key: String): Double? = when (val v = data[key]) {
+                            is Number -> v.toDouble()
+                            is String -> v.toDoubleOrNull()
+                            else -> null
+                        }
+                        val ingList = mutableListOf<com.example.cocktailapp.models.Ingredient>()
+                        (data["ingredients"] as? List<*>)?.forEach { item ->
+                            if (item is Map<*, *>) {
+                                val q = item["quantity"]?.toString()?.trim().orEmpty()
+                                val n = item["name"]?.toString()?.trim().orEmpty()
+                                ingList.add(com.example.cocktailapp.models.Ingredient(name = n, quantity = q))
+                            }
+                        }
+                        collected.add(
+                            Cocktail(
+                                id = doc.id,
+                                name = str("name"),
+                                flavourDescription = str("flavourDescription"),
+                                history = str("history"),
+                                expertRating = num("expertRating"),
+                                memberRating = num("memberRating"),
+                                imageUrl = str("imageUrl"),
+                                recipe = str("recipe"),
+                                strengthScore = num("strengthScore"),
+                                tasteScore = num("tasteScore"),
+                                review = str("review"),
+                                nutrition = str("nutrition"),
+                                alcoholContent = str("alcoholContent"),
+                                ingredients = ingList
+                            )
+                        )
+                    }
+                    maybePublish()
                 }
                 .addOnFailureListener {
                     Toast.makeText(this, getString(R.string.error_chargement_cocktails_favoris), Toast.LENGTH_SHORT).show()
+                    maybePublish()
                 }
         }
     }
 }
+

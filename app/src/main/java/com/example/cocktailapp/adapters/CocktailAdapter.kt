@@ -10,8 +10,10 @@ import com.example.cocktailapp.R
 import com.example.cocktailapp.models.Cocktail
 import com.example.cocktailapp.ui.activities.CocktailDetailActivity
 
-class CocktailAdapter(private var cocktailList: List<Cocktail>) :
-    RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
+class CocktailAdapter(
+    private var cocktailList: List<Cocktail>,
+    private var partyCode: String? = null
+) : RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CocktailViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -35,6 +37,7 @@ class CocktailAdapter(private var cocktailList: List<Cocktail>) :
                     "cocktailIngredients",
                     ArrayList(cocktail.ingredients.map { "${it.quantity} ${it.name}" })
                 )
+                partyCode?.let { code -> putExtra("partyCode", code) }
             }
             context.startActivity(intent)
         }
@@ -43,6 +46,10 @@ class CocktailAdapter(private var cocktailList: List<Cocktail>) :
     fun updateData(newCocktails: List<Cocktail>) {
         cocktailList = newCocktails
         notifyDataSetChanged()
+    }
+
+    fun setPartyCode(code: String?) {
+        partyCode = code
     }
 
     override fun getItemCount(): Int = cocktailList.size

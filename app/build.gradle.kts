@@ -1,4 +1,4 @@
-﻿plugins {
+plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
@@ -7,6 +7,15 @@
 android {
     namespace = "com.example.cocktailapp"
     compileSdk = 35
+
+    signingConfigs {
+        create("release") {
+            storeFile = file("../release.keystore")
+            storePassword = "Nathohulu1"
+            keyAlias = "release"
+            keyPassword = "Nathohulu1"
+        }
+    }
 
     defaultConfig {
         applicationId = "com.example.cocktailapp"
@@ -24,7 +33,11 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        debug {
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -61,7 +74,4 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-
-
 }
-
