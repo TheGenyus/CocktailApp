@@ -17,16 +17,19 @@ import androidx.core.view.setPadding
 import androidx.core.view.updatePadding
 import com.example.cocktailapp.R
 import com.example.cocktailapp.data.CocktailRepository
+import com.example.cocktailapp.data.MyIngredientsStore
 import com.example.cocktailapp.models.Cocktail
 import com.google.android.material.textfield.TextInputEditText
 import kotlin.random.Random
 
 class RandomActivity : AppCompatActivity() {
 
+    private lateinit var stepIngredientChoice: LinearLayout
     private lateinit var ingredientContainer: GridLayout
     private lateinit var ingredientFilterInput: TextInputEditText
     private lateinit var selectRandomButton: Button
     private lateinit var backButton: Button
+    private lateinit var backToIngredientChoiceButton: Button
     private lateinit var filtersBlock: LinearLayout
     private lateinit var checkboxAlcoholFree: CheckBox
     private lateinit var inputStrengthMin: TextInputEditText
@@ -38,6 +41,7 @@ class RandomActivity : AppCompatActivity() {
     private val allCocktails = mutableListOf<Cocktail>()
     private var baseIngredients: List<String> = emptyList()
     private lateinit var repo: CocktailRepository
+    private var usingMyIngredients = false
 
     private lateinit var stepIngredients: LinearLayout
     private lateinit var stepFilters: LinearLayout
@@ -46,10 +50,12 @@ class RandomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_random_cocktail_by_ingredient)
 
+        stepIngredientChoice = findViewById(R.id.stepIngredientChoice)
         ingredientContainer = findViewById(R.id.randomIngredientContainer)
         ingredientFilterInput = findViewById(R.id.randomIngredientFilterInput)
         selectRandomButton = findViewById(R.id.btnGenerateRandom)
         backButton = findViewById(R.id.btnBackToIngredientsRandom)
+        backToIngredientChoiceButton = findViewById(R.id.btnBackToIngredientChoiceRandom)
         filtersBlock = findViewById(R.id.filtersBlock)
         checkboxAlcoholFree = findViewById(R.id.checkboxRandomAlcoholFree)
         inputStrengthMin = findViewById(R.id.inputRandomStrengthMin)
@@ -59,19 +65,49 @@ class RandomActivity : AppCompatActivity() {
         stepIngredients = findViewById(R.id.stepIngredients)
         stepFilters = findViewById(R.id.stepFilters)
         val nextButton = findViewById<Button>(R.id.btnNextToFilters)
+        val useMyIngredientsButton = findViewById<Button>(R.id.btnUseMyIngredientsRandom)
+        val chooseIngredientListButton = findViewById<Button>(R.id.btnChooseIngredientListRandom)
         repo = CocktailRepository(this)
 
         fetchCocktails()
 
+        useMyIngredientsButton.setOnClickListener {
+            val myIngredients = MyIngredientsStore.load(this)
+            if (myIngredients.isEmpty()) {
+                Toast.makeText(this, getString(R.string.error_no_my_ingredients), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            usingMyIngredients = true
+            selectedIngredients.clear()
+            selectedIngredients.addAll(myIngredients)
+            showFilterStep()
+        }
+
+        chooseIngredientListButton.setOnClickListener {
+            usingMyIngredients = false
+            selectedIngredients.clear()
+            ingredientFilterInput.text = null
+            renderIngredientCheckboxes(baseIngredients)
+            stepIngredientChoice.visibility = View.GONE
+            stepIngredients.visibility = View.VISIBLE
+        }
+
         nextButton.setOnClickListener {
-            stepIngredients.visibility = View.GONE
-            stepFilters.visibility = View.VISIBLE
-            filtersBlock.visibility = View.VISIBLE
+            showFilterStep()
         }
 
         backButton.setOnClickListener {
             stepFilters.visibility = View.GONE
-            stepIngredients.visibility = View.VISIBLE
+            if (usingMyIngredients) {
+                stepIngredientChoice.visibility = View.VISIBLE
+            } else {
+                stepIngredients.visibility = View.VISIBLE
+            }
+        }
+
+        backToIngredientChoiceButton.setOnClickListener {
+            stepIngredients.visibility = View.GONE
+            stepIngredientChoice.visibility = View.VISIBLE
         }
 
         selectRandomButton.setOnClickListener {
@@ -89,6 +125,13 @@ class RandomActivity : AppCompatActivity() {
             view.updatePadding(top = systemInsets.top, bottom = bottomPadding)
             insets
         }
+    }
+
+    private fun showFilterStep() {
+        stepIngredientChoice.visibility = View.GONE
+        stepIngredients.visibility = View.GONE
+        stepFilters.visibility = View.VISIBLE
+        filtersBlock.visibility = View.VISIBLE
     }
 
     private fun simpleWatcher(after: () -> Unit) = object : TextWatcher {
@@ -206,6 +249,10 @@ class RandomActivity : AppCompatActivity() {
 
             val matchesIngredients = if (selectedSet.isEmpty()) {
                 true
+            } else if (usingMyIngredients) {
+                cocktailNames.all { name ->
+                    selectedSet.any { sel -> name.contains(sel, ignoreCase = true) }
+                }
             } else {
                 cocktailNames.any { name -> selectedSet.any { sel -> name.contains(sel, ignoreCase = true) } }
             }

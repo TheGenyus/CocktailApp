@@ -19,6 +19,10 @@ class MainMenuActivity : AppCompatActivity() {
             startActivity(Intent(this, SearchActivity::class.java))
         }
 
+        findViewById<Button>(R.id.btnMyIngredients).setOnClickListener {
+            startActivity(Intent(this, MyIngredientsActivity::class.java))
+        }
+
         findViewById<Button>(R.id.btnFavorites).setOnClickListener {
             startActivity(Intent(this, FavoritesActivity::class.java))
         }

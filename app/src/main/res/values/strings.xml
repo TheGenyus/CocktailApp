@@ -35,6 +35,7 @@
     <string name="menu_tous_cocktails">Tous les cocktails</string>
     <string name="menu_favoris">Favoris</string>
     <string name="menu_recherche">Recherche</string>
+    <string name="menu_my_ingredients">Ajouter mes ingredients</string>
     <string name="menu_hasard">Cocktail au hasard</string>
     <string name="menu_tutoriels">Tutoriels</string>
     <string name="menu_deconnexion">Deconnexion</string>
@@ -47,6 +48,17 @@
     <string name="title_tutoriels">Liste des tutoriels</string>
     <string name="title_tutoriel_detail">Nom du tutoriel</string>
     <string name="label_voir_recette">Voir la recette</string>
+    <string name="title_my_ingredients">Mes ingredients</string>
+    <string name="title_choose_ingredient_source">Comment voulez-vous choisir les ingredients ?</string>
+    <string name="hint_filter_ingredients">Filtrer les ingredients</string>
+    <string name="action_use_my_ingredients">Utiliser mes ingredients</string>
+    <string name="action_choose_ingredient_list">Choisir dans la liste complete</string>
+    <string name="action_back_to_choice">Retour au choix</string>
+    <string name="action_save_my_ingredients">Enregistrer mes ingredients</string>
+    <string name="action_clear_my_ingredients">Vider ma liste</string>
+    <string name="label_my_ingredients_count">%1$d ingredients selectionnes</string>
+    <string name="info_my_ingredients_saved">Vos ingredients ont ete enregistres.</string>
+    <string name="error_no_my_ingredients">Ajoutez d\'abord vos ingredients.</string>
 
     <!-- Soirees -->
     <string name="menu_creer_soiree">Creer une soiree</string>

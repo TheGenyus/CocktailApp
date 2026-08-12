@@ -5,7 +5,9 @@ Android app to keep all your cocktail recipes on your phone. Sign up, browse a F
 - Email/password auth with Firebase; login/registration on first screen.
 - Browse all cocktails and open detail pages with history, expert rating, and ingredient list.
 - Search by name and filter by one or more ingredients; results update live.
-- Get a random cocktail that matches selected ingredients.
+- Save a local "my ingredients" list from the generated cocktail ingredient catalogue.
+- Search with either the saved ingredient inventory or a manual ingredient selection.
+- Get a random cocktail that matches selected ingredients, or one that can be made from the saved inventory.
 - Save/remove favorites and view them in a dedicated list.
 - Rate cocktails; ratings are stored per user and cocktail.
 - Read tutorials pulled from Firestore and open detailed views.
@@ -21,6 +23,7 @@ Android app to keep all your cocktail recipes on your phone. Sign up, browse a F
 - `app/src/main/java/com/example/cocktailapp/ui/activities/` - screens (login, main menu, list, detail, favorites, search, random, tutorials).
 - `app/src/main/java/com/example/cocktailapp/adapters/` - RecyclerView adapters for cocktails and tutorials.
 - `app/src/main/java/com/example/cocktailapp/models/` - data models (`Cocktail`, `Ingredient`, `User`, `Tutorial`).
+- `app/src/main/java/com/example/cocktailapp/data/MyIngredientsStore.kt` - local `SharedPreferences` storage for the user's saved ingredient inventory.
 - `app/src/main/java/com/example/cocktailapp/CocktailApp.kt` - enables Firestore offline cache.
 - `app/src/main/res/layout/` - XML layouts for activities and list items.
 

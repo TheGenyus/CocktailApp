@@ -16,15 +16,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailapp.R
 import com.example.cocktailapp.adapters.CocktailAdapter
 import com.example.cocktailapp.data.CocktailRepository
+import com.example.cocktailapp.data.MyIngredientsStore
 import com.example.cocktailapp.models.Cocktail
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.firestore.FirebaseFirestore
 
 class SearchActivity : AppCompatActivity() {
 
+    private lateinit var stepIngredientChoice: LinearLayout
     private lateinit var stepIngredients: LinearLayout
     private lateinit var stepSearch: LinearLayout
+    private lateinit var useMyIngredientsButton: Button
+    private lateinit var chooseIngredientListButton: Button
     private lateinit var nextButton: Button
+    private lateinit var backToIngredientChoiceButton: Button
     private lateinit var backButton: Button
     private lateinit var showResultsButton: Button
     private lateinit var filtersBlock: LinearLayout
@@ -42,22 +46,26 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var adapter: CocktailAdapter
     private lateinit var ingredientContainer: GridLayout
 
-    private val firestore = FirebaseFirestore.getInstance()
     private var allCocktails = listOf<Cocktail>()
     private val selectedIngredients = mutableSetOf<String>()
     private var baseIngredients: List<String> = emptyList()
     private lateinit var repo: CocktailRepository
 
     private var resultsVisible = false
+    private var usingMyIngredients = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_searsh)
 
         repo = CocktailRepository(this)
+        stepIngredientChoice = findViewById(R.id.stepIngredientChoice)
         stepIngredients = findViewById(R.id.stepIngredients)
         stepSearch = findViewById(R.id.stepSearch)
+        useMyIngredientsButton = findViewById(R.id.btnUseMyIngredients)
+        chooseIngredientListButton = findViewById(R.id.btnChooseIngredientList)
         nextButton = findViewById(R.id.btnNextToSearch)
+        backToIngredientChoiceButton = findViewById(R.id.btnBackToIngredientChoice)
         backButton = findViewById(R.id.btnBackToIngredients)
         showResultsButton = findViewById(R.id.btnShowResults)
         filtersBlock = findViewById(R.id.filtersBlock)
@@ -79,19 +87,43 @@ class SearchActivity : AppCompatActivity() {
 
         fetchAllCocktails()
 
+        useMyIngredientsButton.setOnClickListener {
+            val myIngredients = MyIngredientsStore.load(this)
+            if (myIngredients.isEmpty()) {
+                Toast.makeText(this, getString(R.string.error_no_my_ingredients), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            usingMyIngredients = true
+            selectedIngredients.clear()
+            selectedIngredients.addAll(myIngredients)
+            showSearchStep()
+        }
+
+        chooseIngredientListButton.setOnClickListener {
+            usingMyIngredients = false
+            selectedIngredients.clear()
+            ingredientFilterInput.text = null
+            setupIngredientButtons(baseIngredients)
+            stepIngredientChoice.visibility = View.GONE
+            stepIngredients.visibility = View.VISIBLE
+        }
+
         nextButton.setOnClickListener {
+            showSearchStep()
+        }
+
+        backToIngredientChoiceButton.setOnClickListener {
             stepIngredients.visibility = View.GONE
-            stepSearch.visibility = View.VISIBLE
-            resultsVisible = false
-            recyclerView.visibility = View.GONE
-            filtersBlock.visibility = View.VISIBLE
-            showResultsButton.visibility = View.VISIBLE
-            adapter.updateData(emptyList())
+            stepIngredientChoice.visibility = View.VISIBLE
         }
 
         backButton.setOnClickListener {
             stepSearch.visibility = View.GONE
-            stepIngredients.visibility = View.VISIBLE
+            if (usingMyIngredients) {
+                stepIngredientChoice.visibility = View.VISIBLE
+            } else {
+                stepIngredients.visibility = View.VISIBLE
+            }
         }
 
         showResultsButton.setOnClickListener {
@@ -110,6 +142,17 @@ class SearchActivity : AppCompatActivity() {
         inputExpertMin.addTextChangedListener(simpleWatcher { if (resultsVisible) applyFilters() })
         inputMemberMin.addTextChangedListener(simpleWatcher { if (resultsVisible) applyFilters() })
         checkboxAlcoholFree.setOnCheckedChangeListener { _, _ -> if (resultsVisible) applyFilters() }
+    }
+
+    private fun showSearchStep() {
+        stepIngredientChoice.visibility = View.GONE
+        stepIngredients.visibility = View.GONE
+        stepSearch.visibility = View.VISIBLE
+        resultsVisible = false
+        recyclerView.visibility = View.GONE
+        filtersBlock.visibility = View.VISIBLE
+        showResultsButton.visibility = View.VISIBLE
+        adapter.updateData(emptyList())
     }
 
     private fun simpleWatcher(after: () -> Unit) = object : TextWatcher {
@@ -241,13 +284,17 @@ class SearchActivity : AppCompatActivity() {
             val matchesIngredients = if (selectedSet.isEmpty()) {
                 true
             } else {
-                val usesAtLeastOneSelected = cocktailNames.any { name ->
-                    selectedSet.any { sel -> name.contains(sel, ignoreCase = true) }
-                }
                 val missingCount = cocktailNames.count { name ->
                     selectedSet.none { sel -> name.contains(sel, ignoreCase = true) }
                 }
-                usesAtLeastOneSelected && missingCount <= allowedMissing
+                if (usingMyIngredients) {
+                    missingCount <= allowedMissing
+                } else {
+                    val usesAtLeastOneSelected = cocktailNames.any { name ->
+                        selectedSet.any { sel -> name.contains(sel, ignoreCase = true) }
+                    }
+                    usesAtLeastOneSelected && missingCount <= allowedMissing
+                }
             }
 
             val strengthOk = minOk(cocktail.strengthScore, minStrength)

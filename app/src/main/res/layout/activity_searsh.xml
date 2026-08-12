@@ -24,13 +24,45 @@
         android:padding="16dp"
         android:gravity="top">
 
-        <!-- Step 1 : ingredients -->
+        <!-- Step 1 : ingredient source -->
+        <LinearLayout
+            android:id="@+id/stepIngredientChoice"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title_choose_ingredient_source"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btnUseMyIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_use_my_ingredients" />
+
+            <Button
+                android:id="@+id/btnChooseIngredientList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_choose_ingredient_list"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Step 2 : ingredients -->
         <LinearLayout
             android:id="@+id/stepIngredients"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
@@ -74,10 +106,19 @@
                 android:layout_height="wrap_content"
                 android:text="Suivant"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnBackToIngredientChoice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_back_to_choice"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/bg_surface_variant"
+                android:textColor="@color/text_primary" />
         </LinearLayout>
 
-        <!-- Step 2 : filters then show results -->
+        <!-- Step 3 : filters then show results -->
         <LinearLayout
             android:id="@+id/stepSearch"
             android:layout_width="match_parent"

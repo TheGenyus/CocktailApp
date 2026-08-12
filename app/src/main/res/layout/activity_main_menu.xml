@@ -48,6 +48,13 @@
                 android:layout_marginTop="8dp" />
 
             <Button
+                android:id="@+id/btnMyIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menu_my_ingredients"
+                android:layout_marginTop="8dp" />
+
+            <Button
                 android:id="@+id/btnFavorites"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

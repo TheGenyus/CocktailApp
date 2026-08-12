@@ -36,6 +36,9 @@
         <activity android:name=".ui.activities.SearchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.CocktailApp" />
+        <activity android:name=".ui.activities.MyIngredientsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/Theme.CocktailApp" />
         <activity android:name=".ui.activities.TutorialsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/Theme.CocktailApp" />
